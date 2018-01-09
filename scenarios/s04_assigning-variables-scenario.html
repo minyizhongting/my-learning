@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="../js/jquery-1.7.1.min.js"></script>
+	<script src="../js/jsrender.min.js"></script>
+	<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<h3>Example Scenario: Custom tag and helper for assigning/getting local variables.</h3>
+
+<div>
+<b>Note:</b> This scenario implies understanding the processing sequence of template rendering,
+<br />and is somewhat in contradiction with the 'logicless' and declarative philosophy.
+<br />However it illustrates the power of the custom tags and helper function extensibility,
+<br />and is useful in certain advanced scenarios.
+</div>
+
+<h5>Declare <em>setvar</em> custom tag and <em>getvar</em> custom helper function</h5>
+
+<pre>
+	var vars = {};
+
+	$.views.tags({
+	    setvar: function(key, value) {
+	        ...
+	        vars[key] = value;
+	        ...
+	    }
+	});
+
+	$.views.helpers({
+	    getvar: function(key) {
+	        return vars[key];
+	    }
+	})
+</pre>
+
+<h5>Use <em>{{setvar}}</em> to assign values or rendered content to variable</h5>
+
+<pre>
+	{{setvar "summary" languages/}}
+</pre>
+
+<pre>
+	{{setvar "summary"}}
+	    &lt;b>Subtitles only:&lt;/b> {{>subtitles}}
+	{{/setvar}}
+</pre>
+
+<h5>Use <em>{{:~getvar}}</em> to take values stored in the variable, and render them elsewhere in the template</h5>
+
+<pre>
+	{{:~getvar('summary')}}
+</pre>
+
+<table>
+	<thead>
+		<tr>
+			<th>title</th>
+			<th>languages</th>
+			<th>summary</th>
+		</tr>
+	</thead>
+	<tbody id="movieList"></tbody>
+</table>
+
+<script id="mTpl" type="text/x-jsrender">
+	<tr>
+		<td>{{>title}}</td>
+		<td>
+			{{if languages}}
+				{{setvar 'summary' languages/}}
+				Alternative languages: {{>languages}}
+			{{else}}
+				{{setvar 'summary'}}
+					<b>Subtitles only: </b>{{>subtitles}}
+				{{/setvar}}
+				Subtitles only.See summary column:
+				
+			{{/if}}
+		</td>
+		<td>
+			<em>{{:title}}:</em><br>
+			{{:~getvar('summary')}}
+		</td>
+	</tr>
+</script>
+
+<script type="text/javascript">
+	var movies = [
+		{
+			title: "Meet Joe Black",
+			languages: "English and French"
+		},
+		{
+			title: "Eyes Wide Shut",
+			subtitles: "French and Spanish"
+		},
+		{
+			title: "City Hunter",
+			languages: "Mandarin and Chinese"
+		}
+	];
+
+	(function(){
+		var vars = {};
+		$.views.tags({
+			setvar: function(key,value){
+				if(value){
+					vars[key] = value;
+				}else{
+					vars[key] = this.tagCtx.render();
+				}
+				return "";
+			}
+		});
+		$.views.helpers({
+			getvar: function(key){
+				return vars[key];
+			}
+		});
+	})();
+	
+	$('#movieList').html($('#mTpl').render(movies));
+</script>
+
+</body>
+</html>

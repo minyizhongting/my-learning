@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="../js/jquery-1.7.1.min.js"></script>
+	<script src="../js/jsrender.min.js"></script>
+	<link rel="stylesheet" href="../css/style.css">
+	<style>
+
+	</style>
+</head>
+<body>
+
+<h3>Helper functions</h3>
+
+<pre>
+	{{>~format(name, "upper")}}
+
+	$.views.helpers({
+
+	    format: function( val, format ) {
+	        ...
+	        return val.toUpperCase();
+	        ...
+	    },
+
+	    ...
+	});
+</pre>
+<script id="mTpl" type="text/x-jsrender">
+	<tr>
+		<td>{{>~format(title,"upper")}}</td>
+		<td>
+			{{for languages}}
+				{{>~format(name,"lower")}}
+			{{/for}}
+		</td>
+	</tr>
+</script>
+
+<table>
+	<thead>
+		<tr>
+			<th>Title</th>
+			<th>Languages</th>
+		</tr>
+	</thead>
+	<tbody id="movieList"></tbody>
+</table>
+
+<script>
+	$.views.helpers({
+		format: function(val, format) {
+			switch( format ) {
+				case "upper":
+					return val.toUpperCase();
+				case "lower":
+					return val.toLowerCase();
+			}
+		}
+	});
+	var movie = {
+		title: "Eyes Wide Shut",
+		languages: [
+			{ name: "French" },
+			{ name: "German" },
+			{ name: "Spanish" }
+		]
+	};
+	$('#movieList').html($('#mTpl').render(movie));
+</script>
+
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="../js/jquery-1.7.1.min.js"></script>
+	<script src="../js/jsrender.min.js"></script>
+	<link rel="stylesheet" href="../css/style.css">
+	<style>
+
+	</style>
+</head>
+<body>
+
+<h3>Template context: Passing in additional helpers to a render() call</h3>
+
+<h5>Passing in contextual variables or helper functions, using the helpersOrContext parameter of <em>...render( data, helpersOrContext );</em></h5>
+
+<pre>
+	$( selector ).render( data, {
+	    reverseSort: reverse,
+	    format: myFormatFunction,
+	    buttonCaption: function(val) {
+	        ...
+	    }
+	})
+</pre>
+
+<h5>Use <em>~name</em> to access context variables or helpers by name - whether passed in with options,<br>registered globally as helpers, or registered as helpers for a specific template.</h5>
+
+
+<pre>
+	&lt;th>&lt;button>{{>~buttonCaption('sort')}}&lt;/button>&lt;/th>
+	...
+	&lt;td>{{>~format(title)}}&lt;/td>
+	...
+	&lt;td>{{sort languages reverse=~reverseSort}}...{{/sort}}&lt;/td>
+</pre>
+
+<table id="movieList"></table>
+
+<script id="mTpl" type="text/x-jsrender">
+	<thead>
+		<tr>
+			<th>Title <button id="formatBtn">{{>~buttonCaption('case')}}</button></th>
+			<th><button id="sortBtn">{{>~buttonCaption('sort')}}</button></th>
+		</tr>
+	</thead>
+	<tbody>
+		{{for #data}}
+			<tr>
+				<td width="250">{{>~format(title)}}</td>
+				<td>
+					{{sort languages reverse=~reverseSort}}
+					<div>
+						<b>{{>name}}</b>
+					</div>
+					{{/sort}}
+				</td>
+			</tr>
+		{{/for}}
+	</tbody>
+</script>
+
+<script>
+	$.views.tags({
+		// Tag to reverse-sort an array
+		sort: function( array ){
+			var ret = "";
+			if ( this.tagCtx.props.reverse ) {
+				// Render in reverse order
+				for ( var i = array.length; i; i-- ) {
+					ret += this.tagCtx.render( array[ i - 1 ] );
+				}
+			} else {
+				// Render in original order
+				ret += this.tagCtx.render( array );
+			}
+			return ret;
+		}
+	});
+	var reverse = false,
+		upperCase = false,
+		movies = [
+			{
+				title: "Meet Joe Black",
+				languages: [
+					{ name: "English" },
+					{ name: "French" }
+				]
+			},
+			{
+				title: "Eyes Wide Shut",
+				languages: [
+					{ name: "French" },
+					{ name: "German" },
+					{ name: "Spanish" }
+				]
+			}
+		];
+	function myFormatFunction(value) {
+		return upperCase ? value.toUpperCase() : value.toLowerCase();
+	}
+	$("#movieList")
+		.on("click", "#sortBtn", function(){
+			reverse = !reverse;
+			renderList();
+		})
+		.on("click", "#formatBtn", function(){
+			upperCase = !upperCase;
+			renderList();
+		});
+	function renderList() {
+		$( "#movieList" ).html(
+			$( "#mTpl" ).render( [movies], {
+				reverseSort: reverse,
+				format: myFormatFunction,
+				buttonCaption: function(val) {
+					if (val ===  'sort') {
+						return reverse ? "Sort increasing" : "Sort decreasing";
+					}
+					return upperCase ? "to lower" : "to upper";
+				}
+			})
+		);
+	}
+	renderList();
+</script>
+
+</body>
+</html>

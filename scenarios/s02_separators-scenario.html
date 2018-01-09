@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="../js/jquery-1.7.1.min.js"></script>
+	<script src="../js/jsrender.min.js"></script>
+	<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<h3>Example Scenario: Inserting "and" and "," separators between words</h3>
+
+<!-- First Example -->
+<h5>Example 1: Expressions in tags, and template parameters ({{if}} tag):</h5>
+
+<pre>
+    {{for languages ~count=languages.length}}
+        ...
+        {{if #index === ~count-2}} and {{else #index < ~count-2}}, {{/if}}
+        ...
+    {{/for}}
+</pre>
+
+<table>
+	<thead>
+		<tr>
+			<th>title</th>
+			<th>Languages</th>
+		</tr>
+	</thead>
+	<tbody id="movieList1"></tbody>
+</table>
+
+<!-- Second Example -->
+<h5>Example 2: Expressions in tags, and template parameters (ternary expression):</h5>
+
+<pre>
+    {{for languages ~count=languages.length}}
+        ...
+        {{: #index === ~count-2 ? " and " : #index < ~count-2 ? ", " : ""}}
+        ...
+    {{/for}}	
+</pre>
+
+<table>
+	<thead>
+		<tr>
+			<th>title</th>
+			<th>Languages</th>
+		</tr>
+	</thead>
+	<tbody id="movieList2"></tbody>
+</table>
+
+<!-- Third Example -->
+<h5>Example 3: Custom helper functions:</h5>
+
+<pre>
+	{{for languages}}
+        ...
+        {{if ~nextToLast()}} and {{else ~notLast()}}, {{/if}}
+        ...
+    {{/for}}
+</pre>
+
+<table>
+	<thead>
+		<tr>
+			<th>title</th>
+			<th>Languages</th>
+		</tr>
+	</thead>
+	<tbody id="movieList3"></tbody>
+</table>
+
+
+<h3>Using "allowCode"</h3>
+
+<div>
+<b>Note:</b> The allowCode feature is powerful, but leads to poor separation of concerns, and poor maintainability.
+<br />It is therefore only available as an opt-in feature on a per template basis.
+<br /><br />The following two examples illustrate its use, but are not the recommended approach. The built-in expression support,
+<br />custom tags, helper functions etc. provide a better solution for almost all scenarios, as in the two examples above.</div>
+
+<!-- Fourth Example --> <!-- 4和5两个例子不推荐 -->
+<h5>Example 4: allowCode, for program flow - with if(...) { ... }:</h5>
+
+<pre>
+	$.templates( "movieTmpl", {
+	    markup: "#movieTemplate",
+	    allowCode: true
+	});
+
+	{{*
+	    if ( myexpression ) {
+	}}
+	    ...
+	{{*
+	    }
+	}}
+</pre>
+
+<table>
+	<thead>
+		<tr>
+			<th>title</th>
+			<th>Languages</th>
+		</tr>
+	</thead>
+	<tbody id="movieList4"></tbody>
+</table>
+
+<!-- Fifth Example -->
+<h5>Example 5: allowCode, for returning content - with ternary expression:</h5>
+
+<pre>
+	$.templates( "movieTmpl", {
+	    markup: "#movieTemplate",
+	    allowCode: true
+	});
+
+	{{*: myexpression ? ... : ...}}
+</pre>
+
+<table>
+	<thead>
+		<tr>
+			<th>title</th>
+			<th>Languages</th>
+		</tr>
+	</thead>
+	<tbody id="movieList5"></tbody>
+</table>
+
+<script id="mTpl1" type="text/x-jsrender">
+	<tr>
+		<td>{{>title}}</td>
+		<td>
+			{{for languages ~count=languages.length}}
+				{{>name}}{{if #index === ~count-2}} and {{else #index < ~count-2}}, {{/if}}
+			{{/for}}
+		</td>
+	</tr>
+</script>
+
+<script id="mTpl2" type="text/x-jsrender">
+	<tr>
+		<td>{{>title}}</td>
+		<td>
+   			{{for languages ~count=languages.length}}
+				{{>name}}{{: #index === ~count-2 ? " and " : #index < ~count-2 ? ", " : ""}}
+			{{/for}}
+		</td>
+	</tr>
+</script>
+
+<script id="mTpl3" type="text/x-jsrender">
+	<tr>
+		<td>{{>title}}</td>
+		<td>
+			{{for languages}}
+				{{>name}}{{if ~nextToLast()}} and {{else ~notLast()}}, {{/if}}
+			{{/for}}
+		</td>
+	</tr>
+</script>
+
+<script id="mTpl4" type="text/x-jsrender">
+	<tr>
+		<td>{{>title}}</td>
+		<td>
+			{{for languages}}
+				{{>name}}{{*
+
+					if ( view.index === view.parent.data.length-2 ) {
+
+				}} and {{*
+
+					} else if ( view.index < view.parent.data.length-2 ) {
+
+				}}, {{* } }}
+			{{/for}}
+		</td>
+	</tr>
+</script>
+
+<script id="mTpl5" type="text/x-jsrender">
+	<tr>
+		<td>{{>title}}</td>
+		<td>
+			{{for languages}}
+				{{>name}}
+				{{*: view.index === view.parent.data.length-2 ? " and " : view.index < view.parent.data.length-2 ? ", " : ""}}
+			{{/for}}
+		</td>
+	</tr>
+</script>
+
+<script type="text/javascript">
+	$.views.helpers({
+		nextToLast: function() {
+			return this.index === this.parent.data.length-2;
+		},
+		notLast: function() {
+			return this.index !== this.parent.data.length-1;
+		}
+	});
+	var movies = [
+		{
+			title: "Meet Joe Black",
+			languages: [
+				{ name: "English" },
+				{ name: "French" }
+			],
+			subtitles: [
+				{ name: "English" },
+				{ name: "French" },
+				{ name: "Chinese" }
+			]
+		},
+		{
+			title: "Eyes Wide Shut",
+			languages: [
+				{ name: "French" },
+				{ name: "German" },
+				{ name: "Spanish" }
+			],
+			subtitles: [
+				{ name: "English" }
+			]
+		}
+	];
+	$.templates({
+		movieTmpl1: "#mTpl1",
+		movieTmpl2: "#mTpl2",
+		movieTmpl3: "#mTpl3",
+		movieTmpl4: {
+			markup: "#mTpl3",
+			allowCode: true,
+			useViews: true // Since the {{* ... }} code inserted uses views (view.parent...) we make sure the default optimization of not using views when not necessary
+		},
+		movieTmpl5: {
+			markup: "#mTpl4",
+			allowCode: true,
+			useViews: true
+		}
+	});
+	// Note that by default, rendering simple templates does not create a view hierarchy - which allows for optimized performance.
+	// For the movieList3 and movieList4 we are inserting code that does depend on the view hierarchy (e.g. view.parent... ) so for
+	// those templates we have set useViews: true. We could alternatively use $.views.settings.useViews = true, as a global setting...
+	$("#movieList1").html($.render.movieTmpl1(movies));
+	$("#movieList2").html($.render.movieTmpl2(movies));
+	$("#movieList3").html($.render.movieTmpl3(movies));
+	$("#movieList4").html($.render.movieTmpl4(movies));
+	$("#movieList5").html($.render.movieTmpl5(movies));
+</script>
+
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="../js/jquery-1.7.1.min.js"></script>
+	<script src="../js/jsrender.min.js"></script>
+	<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<h3>Example Scenario: providing default values for data.</h3>
+
+
+<!-- First Example -->
+<h5>The simplest (and best) way: Javascript expression '||':</h5>
+
+<pre>
+	{{>languages||'Languages unavailable'}}
+</pre>
+
+<table>
+	<thead>
+		<tr>
+			<th>title</th>
+			<th>{{>path}}</th>
+		</tr>
+	</thead>
+	<tbody id="movieList1"></tbody>
+</table>
+
+<!-- Second Example -->
+<h5>Creating a special custom tag:</h5>
+
+<pre>
+	{{get languages defaultValue="No languages!"/}}
+
+	$.views.tags({
+	    get: function( value ) {
+	        return value || this.ctx.props.defaultValue;
+	    }
+	});
+</pre>
+
+<table>
+	<thead>
+		<tr>
+			<th>title</th>
+			<th>{{get path default="..."}}</th>
+		</tr>
+	</thead>
+	<tbody id="movieList2"></tbody>
+</table>
+
+<!-- Third Example -->
+<h5>Creating a multi-purpose utility tag:</h5>
+
+<pre>
+	{{yesNo languages yes="Alternate languages available:" no="No alternate languages"/}}
+
+	$.views.tags({
+	    yesNo: function( value ) {
+	        return value ? this.tagCtx.props.yes : this.tagCtx.props.no;
+	    }
+	});
+</pre>
+
+<table>
+	<thead>
+		<tr>
+			<th>title</th>
+			<th>{{get path default="..."}}</th>
+		</tr>
+	</thead>
+	<tbody id="movieList3"></tbody>
+</table>
+
+<script id="mTpl1" type="text/x-jsrender">
+	<tr>
+		<td>{{>title}}</td>
+		<td>
+			{{>languages||'Languages unavailable'}}
+		</td>
+	</tr>
+</script>
+
+<script id="mTpl2" type="text/x-jsrender">
+	<tr>
+		<td>{{>title}}</td>
+		<td>
+			{{get languages defaultValue="No languages!"/}}
+		</td>
+	</tr>
+</script>
+
+<script id="mTpl3" type="text/x-jsrender">
+	<tr>
+		<td>{{>title}}</td>
+		<td>
+			{{yesNo languages yes="Alternate languages available: " no="No alternate languages"/}}
+			{{>languages}}
+		</td>
+	</tr>
+</script>
+
+<script>
+	$.views.tags({
+		get:function(val){
+			return val || this.tagCtx.props.defaultValue;
+		},
+		yesNo:function(val){
+			return val ? this.tagCtx.props.yes : this.tagCtx.props.no;
+		}
+	});
+	var movies = [
+		{ 
+			title:"MeetJoe Black",
+			languages:"English and French",
+			subtitles:"English"
+		},
+		{ 
+			title:"Eyes Wide Shut",
+			subtitles:"French and Spanish"
+		},
+		{ 
+			title:"The Mighty",
+		},
+		{ 
+			title:"City Hunter",
+			languages:"Mandarin and Chinese"
+		}
+	];
+	$('#movieList1').html($('#mTpl1').render(movies));
+	$('#movieList2').html($('#mTpl2').render(movies));
+	$('#movieList3').html($('#mTpl3').render(movies));
+</script>
+
+</body>
+</html>

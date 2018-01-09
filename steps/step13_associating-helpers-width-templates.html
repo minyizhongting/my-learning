@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="../js/jquery-1.7.1.min.js"></script>
+	<script src="../js/jsrender.min.js"></script>
+	<link rel="stylesheet" href="../css/style.css">
+	<style>
+
+	</style>
+</head>
+<body>
+
+<h3>Associating specific contextual helpers with templates</h3>
+
+<h5>Including helpers in a template definition.</h5>
+
+<pre>
+	$.templates({
+	    appTmpl: {
+	        markup:"#appTmpl",
+	        helpers: {
+	            supplierUtils: ...
+	        }
+	    }
+	});
+</pre>
+
+<h5>Passing different helpers to a sub-template based on the context where it is used.</h5>
+
+<pre>
+	{{for suppliers tmpl="personTmpl" ~utils=~supplierUtils/}}
+</pre>
+
+<h5>Accessing helper from nested template:</h5>
+
+<pre>
+	&lt;b>ID:&lt;/b> &lt;em>{{:~utils.format(id)}}&lt;/em>
+</pre>
+
+<div id="target"></div>
+
+<script id="appTmpl" type="text/x-jsrender">
+	<h4>Suppliers</h4>
+	<table>
+		<tbody>
+			{{for suppliers tmpl="personTmpl" ~utils=~supplierUtils/}}
+		</tbody>
+	</table>
+	<h4>Customers</h4>
+	<table>
+		<tbody>
+			{{for customers tmpl="personTmpl" ~utils=~customerUtils/}}
+		</tbody>
+	</table>
+</script>
+
+<script id="personTmpl" type="text/x-jsrender">
+	<tr>
+		<td>
+			<b>ID:</b> <em>{{:~utils.format(id)}}</em>
+		</td>
+		<td>
+			{{:firstName}} {{:lastName}}
+		</td>
+	</tr>	
+</script>
+
+<script>
+	var people = [
+		{
+			id: "abc22",
+			firstName: "Jeff",
+			lastName: "Johnson"
+		},
+		{
+			id: "pq44",
+			firstName: "Rachel",
+			lastName: "Roberts"
+		},
+		{
+			id: "xyz99",
+			firstName: "Jacques",
+			lastName: "Bertin"
+		}
+	];
+	var model = {
+		suppliers: [people[0], people[2]],
+		customers: [people[1], people[2]]
+	}
+	$.templates({
+		personTmpl: "#personTmpl",
+		appTmpl: {
+			markup:"#appTmpl",
+			helpers: {
+				supplierUtils: {
+					format:function(val){return "Supplier:" + val.toUpperCase();}
+				},
+				customerUtils: {
+					format:function(val){return "Customer:" + val.toLowerCase();}
+				}
+			}
+		}
+	});
+	$("#target").html($.render.appTmpl(model));
+</script>
+
+</body>
+</html>

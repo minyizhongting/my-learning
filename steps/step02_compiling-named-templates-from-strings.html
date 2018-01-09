@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="../js/jquery-1.7.1.min.js"></script>
+	<script src="../js/jsrender.min.js"></script>
+	<link rel="stylesheet" href="../css/style.css">
+	<style>
+	table{width:600px;border:2px solid blue;border-collapse:collapse;margin:4px 0 24px 4px;background-color:#f8f8f8;padding:2px;}
+	tr{height:25px;}
+	td{padding:3px;margin:3px;border:1px solid #77c;}
+	</style>
+</head>
+<body>
+
+<h3>Compiling named templates from strings</h3>
+<button id="switchBtn">Show full details</button>
+<br><br>
+<table>
+	<tbody id="movieList"></tbody>
+</table>
+
+<script>
+	var movies = [
+		{ name: "The Red Violin", releaseYear: "1998", director: "Francois Girard" },
+		{ name: "Eyes Wide Shut", releaseYear: "1999", director: "Stanley Kubrick" },
+		{ name: "The Inheritance", releaseYear: "1976", director: "Mauro Bolognini" }
+	];
+	/* 多个模板 */
+	$.templates({
+		titleTemplate: "<tr><td colspan=3>{{>name}}</td></tr>",
+		detailTemplate: "<tr><td>{{>name}}</td><td>Released: {{>releaseYear}}</td><td>directors: {{>director}}</td></tr>"
+	});
+	var details = true;
+	function switchTemplates(){
+		var html,button = $('#switchBtn');
+		details = !details;
+		/* Render using the other named template */
+		if(details){
+			button.text('Show titles only');
+			html = $.render.detailTemplate(movies);
+		}else{
+			button.text('Show full details');
+			html = $.render.titleTemplate(movies);
+		}
+		$('#movieList').html(html);
+	}
+	$('#switchBtn').click(switchTemplates);
+	switchTemplates();
+</script>
+
+</body>
+</html>

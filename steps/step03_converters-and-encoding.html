@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="../js/jquery-1.7.1.min.js"></script>
+	<script src="../js/jsrender.min.js"></script>
+	<link rel="stylesheet" href="../css/style.css">
+	<style>
+	ul li{line-height:2;}
+	td.synopsis{background-color:#ddd;}
+	th{font-size:12px;}
+	.red{color:red;}
+	</style>
+</head>
+<body>
+
+<h3>Using {{: }} or {{> }} to render data values with optional conversion or encoding.</h3>
+<ul>
+	<li><b>{{:value}}</b> &mdash; does not convert. Used to render values that include html markup.</li>
+	<li><b>{{loc:value lang="..."}}</b> &mdash; Uses custom converter.</li>
+	<li><b>{{html:value}}</b> &mdash; Converts using built-in HTML encoder. (Better security within element content, but slight perf cost).</li>
+	<li><b>{{>value}}</b> &mdash; Alternative syntax for built-in HTML encoder.</li>
+	<li><b>{{attr:availability}}</b> &mdash; Converts using built-in attribute encoder. (Better security within attributes).</li>
+	<li><b>{{url:value lang="..."}}</b> &mdash; Converts using built-in URL encoder.</li>
+</ul>
+<div><b>Note:</b> A common use for converters is to protect against injection attacks from untrusted data.
+<br />It is generally best to use <b>{{> }}</b> when rendering data within element content, <br>if the data is not intended to provide markup for insertion in the DOM.
+<br />In the context of HTML attributes, use <b>{{attr: }}</b>.</div>
+<br><br>
+<table>
+	<thead>
+		<tr>
+			<th>Title (loc:English)</th>
+			<th>Title (loc:French)</th>
+			<th>No Convert</th>
+			<th>HTML Encode</th>
+		</tr>
+	</thead>
+	<tbody id="movieList"></tbody>
+</table>
+
+<script id="mTpl" type="text/x-jsrender">
+	<tr title="{{attr:availability}}">
+		<td>{{loc:title lang='EN'}}</td>
+		<td>{{loc:title lang='FR'}}</td>
+		<td class="synopsis">{{:synopsis}}</td>	<!-- 若包含html标记，解析显示 -->
+		<td class="synopsis">{{>synopsis}}</td>	<!-- 内容直接显示 -->
+	</tr>
+</script>
+
+<script>
+	var movies = [
+		{ 
+			availability: "Available in 'X&Y' Cinemas",
+			title: "Meet Joe Black",
+			synopsis: "Hello <span class='red'>No.1</span>.<a href='www.baidu.com'>Link1</a>..."
+		},
+		{ 
+			availability: "Available at < 20kms from London",
+			title: "Eyes Wide Shut",
+			synopsis: "Hello <span class='red'>No.2</span>.<a href='www.baidu.com'>Link2</a>..."
+		}
+	];
+	$.views.converters({
+		loc:function(value){
+			var result = "";
+			switch(this.tagCtx.props.lang){
+				case "EN":
+					result = value;
+					break;
+				case "FR":
+					switch(value){
+						case "Meet Joe Black":
+							result = "Rencont rez Joe Black";
+							break;
+						case "Eyes Wide Shut":
+							result = "Les Yeux Grand Fermes";
+							break; 
+					}
+					break;
+			}
+			return result;
+		}
+	});
+	$('#movieList').html($('#mTpl').render(movies));
+</script>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="../js/jquery-1.7.1.min.js"></script>
+	<script src="../js/jsrender.min.js"></script>
+	<link rel="stylesheet" href="../css/style.css">
+	<style>
+
+	</style>
+</head>
+<body>
+
+<h3>Comparison tests</h3>
+
+<pre>
+	{{if !(languages && languages.length)}}...{{/if}}
+
+	{{if languages==null}}...{{/if}}
+</pre>
+<script id="mTpl" type="text/x-jsrender">
+	<tr>
+		<td>{{>title}}</td>
+		<td>
+			{{if !(languages && languages.length) tmpl="#messageTmpl"/}}
+		</td>
+		<td>
+			{{if languages==null tmpl="#messageTmpl"/}}
+		</td>
+	</tr>
+</script>
+
+<script id="messageTmpl" type="text/x-jsrender">
+	<b>Warning:</b> <em>No alternate languages</em>
+</script>
+
+<table>
+	<thead>
+		<tr>
+			<th>Title</th>
+			<th>{{if !(languages && languages.length)}}</th>
+			<th>{{if a==null}}</th>
+		</tr>
+	</thead>
+	<tbody id="movieList"></tbody>
+</table>
+
+<script>
+	var movies = [
+		{
+			title: "Meet Joe Black",
+			languages:null
+		},
+		{
+			title: "The Mighty",
+			languages:[]
+		},
+		{
+			title: "Eyes Wide Shut",
+			languages: [
+				{ name: "French" },
+				{ name: "German" },
+				{ name: "Spanish" }
+			]
+		}
+	];
+	$('#movieList').html($('#mTpl').render(movies));
+</script>
+
+</body>
+</html>

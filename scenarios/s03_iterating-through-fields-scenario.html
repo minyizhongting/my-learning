@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="../js/jquery-1.7.1.min.js"></script>
+	<script src="../js/jsrender.min.js"></script>
+	<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<h3>Example Scenario: Using {{props}} tag to iterate through fields</h3>
+
+<pre>
+	{{props details}}
+	    &lt;b>{{>key}}&lt;/b>: {{>prop}}
+	{{/props}}
+</pre>
+
+<table>
+	<thead>
+		<tr>
+			<th>Title</th>
+			<th>Details</th>
+		</tr>
+	</thead>
+	<tbody id="movieList"></tbody>
+</table>
+
+<script id="mTpl" type="text/x-jsrender">
+	<tr>
+		<td>{{>title}}</td>
+		<td>
+			{{props details}}
+				<div>
+					<b>{{>key}}</b>: {{>prop}}
+				</div>
+			{{/props}}
+		</td>
+	</tr>
+</script>
+
+<script type="text/javascript">
+	var movies = [
+		{
+			title: "Meet Joe Black",
+			details: {
+				director: "John",
+				date: "1996",
+				language: "English"
+			}
+		},
+		{
+			title: "Eyes Wide Shut",
+			details: {
+				type: "Comedy",
+				date: "1940"
+			}
+		}
+	];
+	$('#movieList').html($('#mTpl').render(movies));
+</script>
+
+</body>
+</html>

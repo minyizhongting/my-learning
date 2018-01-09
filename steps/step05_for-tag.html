@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="../js/jquery-1.7.1.min.js"></script>
+	<script src="../js/jsrender.min.js"></script>
+	<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<h3>Using {{for}} to render hierarchical data - inline nested template.</h3>
+
+<table>
+	<thead>
+		<tr>
+			<th>title</th>
+			<th>languages</th>
+		</tr>
+	</thead>
+	<tbody id="movieList"></tbody>
+</table>
+
+<script id="mTpl" type="text/x-jsrender">
+	<tr>
+		<td>{{>title}}</td>
+		<td>
+			{{for languages}}
+				<div class="{{:#index%2 ? 'even' : 'odd'}}"></div>
+				<div>
+					<em>{{>name}}</em>
+				</div>
+			{{else}}
+				No alternate languages
+			{{/for}}
+		</td>
+	</tr>
+</script>
+
+<script>
+	var movies = [
+		{ 
+			title:"MeetJoe Black",
+			languages:[
+				{name:"English"},
+				{name:"French"}
+			]
+		},
+		{ 
+			title:"Eyes Wide Shut",
+			languages:[
+				{name:"French"},
+				{name:"Mandarin"},
+				{name:"Spanish"}
+			]
+		},
+		{
+			title:"The Inheritance",
+			languages:[
+				{name:"English"},
+				{name:"German"}
+			]
+		},
+		{
+			title:"Local Story",
+			languages:[]
+		},
+		{
+			title:"My Home Video"
+		}
+	];
+	$('#movieList').html($('#mTpl').render(movies));
+</script>
+
+</body>
+</html>

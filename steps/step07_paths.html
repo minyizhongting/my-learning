@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="../js/jquery-1.7.1.min.js"></script>
+	<script src="../js/jsrender.min.js"></script>
+	<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<h3>Accessing paths</h3>
+
+<div id="peopleList"></div>
+
+<script id="pTpl" type="text/x-jsrender">
+	<b>{{:#index+1}}:</b> {{>firstName}} {{>lastName}}:
+	<br>
+	{{for address tmpl="#addressTpl"}}
+	{{else}}
+		Address missing
+	{{/for}}
+
+	<div>
+		Phones:
+		{{for ~combine(phones,cells)}}
+			<b>{{>#data}}</b>({{>#parent.parent.data.firstName}}'s')
+		{{else}}
+			{{>#parent.data.firstName}} has no phone or cells
+		{{/for}}
+	</div>
+	<br>
+	<i>
+		{{>firstName}}
+		{{if address && address.street}}
+			lives in {{>address.street}}
+		{{else}}
+			has no address...
+		{{/if}}
+	</i>
+	<hr>
+</script>
+
+<script id="addressTpl" type="text/x-jsrender">
+	<div>
+		{{if street}}
+			{{>street}}
+		{{else}}
+			<i>Somewhere</i> in
+		{{/if}}
+		{{>city}}
+	</div>
+</script>
+
+<script>
+	var people = [
+		{
+			firstName: "Pete",
+			lastName: "Ruffles",
+			address: {
+				city: "Bellevue"
+			},
+			cells: ["425 666 3455", "425 222 1111"]
+		},
+		{
+			firstName: "Xavier",
+			lastName: "NoStreet",
+			phones: ["222 666 3455"],
+			cells: ["444 666 3455", "999 222 1111"]
+		},
+		{
+			firstName: "Christie",
+			lastName: "Sutherland",
+			address: {
+				street: "222 2nd Ave NE",
+				city: "Redmond"
+			}
+		}
+	];
+	$.views.helpers({
+		combine: function( arr1, arr2 ) {
+			return arr1 && arr2 ? arr1.concat(arr2) : arr1 || arr2;
+		}
+	});
+	$('#peopleList').html($('#pTpl').render(people));
+</script>
+
+</body>
+</html>

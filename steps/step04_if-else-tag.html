@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="../js/jquery-1.7.1.min.js"></script>
+	<script src="../js/jsrender.min.js"></script>
+	<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<h3>Using {{if}} and {{else}} to render conditional sections.</h3>
+
+<table>
+	<thead>
+		<tr>
+			<th>title</th>
+			<th>languages</th>
+		</tr>
+	</thead>
+	<tbody id="movieList"></tbody>
+</table>
+
+<script id="mTpl" type="text/x-jsrender">
+	<tr>
+		<td>{{>title}}</td>
+		<td>
+			{{if languages}}
+				Alternative languages:<em>{{>languages}}</em>
+			{{else subtitles}}
+				Original language only... <br>subtitles in <em>{{>subtitles}}</em>
+			{{else}}
+				Original version only, without subtitles.
+			{{/if}}
+		</td>
+	</tr>
+</script>
+
+<script>
+	var movies = [
+		{ 
+			title:"MeetJoe Black",
+			languages:"English and French",
+			subtitles:"English"
+		},
+		{ 
+			title:"Eyes Wide Shut",
+			subtitles:"French and Spanish"
+		},
+		{ 
+			title:"The Mighty",
+		},
+		{ 
+			title:"City Hunter",
+			languages:"Mandarin and Chinese"
+		}
+	];
+	$('#movieList').html($('#mTpl').render(movies));
+</script>
+
+</body>
+</html>

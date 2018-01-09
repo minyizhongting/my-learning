@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="../js/jquery-1.7.1.min.js"></script>
+	<script src="../js/jsrender.min.js"></script>
+	<link rel="stylesheet" href="../css/style.css">
+	<style>
+
+	</style>
+</head>
+<body>
+
+<h3>Example Scenario: Accessing parent data.</h3>
+
+<!-- First Example -->
+<h5>Stepping up through the views (tree of nested rendered templates)</h5>
+
+<pre>
+	var model = {
+	    specialMessage: function(...) { ... },
+	    theater: "Rialto",
+	    movies: [ ... ]
+	}
+
+	{{for movies}}
+	   &lt;tr>
+	        &lt;td>'{{>title}}': showing at the '{{>#parent.parent.data.theater}}'&lt;td>
+</pre>
+
+<table>
+	<thead>
+		<tr>
+			<th>Title</th>
+			<th>Languages(+specialMessage)</th>
+		</tr>
+	</thead>
+	<tbody id="movieList1"></tbody>
+</table>
+
+<!-- Second Example -->
+<h5>Setting contextual template parameters, accessible in all nested contexts as ~nameOfParameter:</h5>
+<!-- 设置上下文模板参数 -->
+
+<pre>
+	{{for movies ~theater=theater}}
+    	&lt;tr>
+       		&lt;td>'{{>title}}': showing at the '{{>~theater}}'&lt;/td>
+</pre>
+
+<table>
+	<thead>
+		<tr>
+			<th>Title</th>
+			<th>Languages(+specialMessage)</th>
+		</tr>
+	</thead>
+	<tbody id="movieList2"></tbody>
+</table>
+
+<!-- Third Example -->
+<h5>Using the top-level data, accessible in all nested contexts as ~root:</h5>
+
+<pre>
+	{{for movies}}
+  	  	&lt;tr>
+      		&lt;td>'{{>title}}': showing at the '{{>~root.theater}}'&lt;/td>
+</pre>
+
+<table>
+	<thead>
+		<tr>
+			<th>Title</th>
+			<th>Languages(+specialMessage)</th>
+		</tr>
+	</thead>
+	<tbody id="movieList3"></tbody>
+</table>
+
+<script id="mTpl1" type="text/x-jsrender">
+	{{for movies}}
+		<tr>
+			<td>'{{>title}}': showing at the '{{>#parent.parent.data.theater}}'</td>
+			<td>
+				{{if languages}}
+					{{for languages}}
+						{{>#data}}
+						{{>#parent.parent.parent.parent.parent.data.specialMessage(#data,#parent.parent.data.title)}}<br>
+					{{/for}}
+				{{/if}}
+			</td>
+		</tr>
+	{{/for}}
+</script>
+<script id="mTpl2" type="text/x-jsrender">
+	{{for movies ~theater=theater ~specialMessage=specialMessage}}
+		<tr>
+			<td>'{{>title}}': showing at the '{{>~theater}}'</td>
+			<td>
+				{{for languages ~title=title}}
+					{{>#data}}{{>~specialMessage(#data,~title)}}<br>
+				{{/for}}
+			</td>
+		</tr>	
+	{{/for}}
+</script>
+<script id="mTpl3" type="text/x-jsrender">
+	{{for movies}}
+		<tr>
+			<td>'{{>title}}': showing at the '{{>~root.theater}}'</td>
+			<td>
+				{{for languages ~title=title}}
+					{{>#data}}{{>~root.specialMessage(#data,~title)}}<br>
+				{{/for}}
+			</td>
+		</tr>
+	{{/for}}
+</script>
+
+<script>
+	var model = {
+		specialMessage: function(language, title) {
+			if (language === "French" && title === "City Hunter") { 
+				return ": (special offer)"; 
+			}
+		},
+		theater: "Rialto",
+		movies: [
+			{
+				title: "Meet Joe Black",
+				languages: [
+					"English",
+					"French"
+				]
+			},
+			{
+				title: "City Hunter",
+				languages: [
+					"Mandarin",
+					"French",
+					"Chinese"
+				]
+			}
+		]
+	};
+	$('#movieList1').html($('#mTpl1').render(model));
+	$('#movieList2').html($('#mTpl2').render(model));
+	$('#movieList3').html($('#mTpl3').render(model));
+</script>
+
+</body>
+</html>

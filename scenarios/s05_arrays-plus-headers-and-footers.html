@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="../js/jquery-1.7.1.min.js"></script>
+	<script src="../js/jsrender.min.js"></script>
+	<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<h3>To render a <em>non-repeating</em> template against an array, with content above or below the repeating items,<br />
+wrap the array - as <em>render([myArray])</em> - and include <em>{{for #data}}</em> for the repeating section</h3>
+
+<h5>Top-level layout:</h5>
+
+<pre>
+	$( "#movieList" ).html(
+	    // Pass second parameter <em>true</em> to choose noIteration even for arrays.
+	    $("#movieTemplate").render(movies, true)
+	);
+
+	Template:
+
+	   header
+	   {{for}}
+	      item
+	   {{/for}}
+	   footer
+</pre>
+
+<h5>Nested layout:</h5>
+
+<pre>
+	{{include languages}}
+	    header
+	    {{for}}
+	        item
+	    {{/for}}
+	    footer
+	{{/for}}
+</pre>
+
+
+<table id="movieList"></table>
+
+<script id="mTpl" type="text/x-jsrender">
+	<thead>
+		<tr>
+			<th colspan="2">{{:length}} movies available:</th>
+		</tr>
+		<tr>
+			<th>Title</th>
+			<th>Languages</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{for}}
+			<tr>
+				<td>{{>title}}</td>
+				<td>
+					{{include languages}}
+						<div>
+							{{if #data}}
+								<strong>{{:length}}</strong> languages available:
+								{{for}}
+									<em>{{>name}}</em>
+								{{/for}}
+							{{else}}
+								Original version only
+							{{/if}}
+						</div>
+						<div>
+							{{if #data}}
+								Additional languages also in stock
+							{{/if}}
+						</div>
+					{{/include}}
+				</td>
+			</tr>
+		{{/for}}
+	</tbody>
+</script>
+
+<script type="text/javascript">
+	var movies = [
+		{
+			title: "Meet Joe Black"
+		},
+		{
+			title: "Eyes Wide Shut",
+			languages: [
+				{ name: "French" },
+				{ name: "Mandarin" },
+				{ name: "Spanish" }
+			]
+		},
+		{
+			title: "The Inheritance",
+			languages: [
+				{ name: "English" },
+				{ name: "Russian" }
+			]
+		}
+	];
+	$('#movieList').html($('#mTpl').render(movies,true));	//Wrap movies array in an array
+</script>
+
+</body>
+</html>

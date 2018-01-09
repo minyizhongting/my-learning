@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="../js/jquery-1.7.1.min.js"></script>
+	<script src="../js/jsrender.min.js"></script>
+	<link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<h3>Render template against local data</h3>
+<div id="movieList"></div>
+
+<script id="mTpl" type="text/x-jsrender">
+	<div>
+		{{:#index+1}}: <b>{{>name}}</b> ({{>releaseYear}})
+	</div>
+</script>
+
+<script>
+	var movies = [
+		{ name: "The Red Violin", releaseYear: "1998" },
+		{ name: "Eyes Wide Shut", releaseYear: "1999" },
+		{ name: "The Inheritance", releaseYear: "1976" }
+	];
+	$('#movieList').html($('#mTpl').render(movies));
+</script>
+
+</body>
+</html>

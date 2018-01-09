@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="../js/jsrender.min.js"></script>
+	<link rel="stylesheet" href="../css/style.css">
+	<style>
+
+	</style>
+</head>
+<body>
+
+<h3>JsRender without jQuery</h3>
+
+<pre>
+    (function($) {
+        ...
+        $.templates({
+            movieTemplate: document.getElementById( "movieTemplate" ).innerHTML,
+            ...
+        });
+
+        document.getElementById( "movieList" ).innerHTML = $.render.movieTemplate( movies );
+
+    })(this.jsrender);
+</pre>
+
+<div id="movieList"></div>
+
+<script id="movieTmpl" type="text/x-jsrender">
+	<tr>
+		<td>{{>title}}</td>
+		<td>{{sort languages tmpl="sortedTmpl"/}}</td>
+		<td>
+			{{sort languages reverse=true}}
+				<div>
+					<b>{{>name}}</b>
+				</div>	
+			{{/sort}}
+		</td>
+	</tr>
+</script>
+
+<script id="sortedTmpl" type="text/x-jsrender">
+	<div>{{>name}}</div>
+</script>
+
+<script>
+	(function($){
+		$.views.tags({
+			sort: function( array ){
+				var ret = "";
+				if ( this.tagCtx.props.reverse ) {
+					// Render in reverse order
+					for ( var i = array.length; i; i-- ) {
+						ret += this.tagCtx.render( array[ i - 1 ] );
+					}
+				} else {
+					// Render in original order
+					ret += this.tagCtx.render( array );
+				}
+				return ret;
+			}
+		});
+		var movies = [
+			{
+				title: "Meet Joe Black",
+				languages: [
+					{ name: "English" },
+					{ name: "French" }
+				]
+			},
+			{
+				title: "Eyes Wide Shut",
+				languages: [
+					{ name: "French" },
+					{ name: "German" },
+					{ name: "Spanish" }
+				]
+			}
+		];
+		$.templates({
+			movieTmpl: document.getElementById( "movieTmpl" ).innerHTML,
+			sortedTmpl: document.getElementById( "sortedTmpl" ).innerHTML
+		});
+		document.getElementById( "movieList" ).innerHTML = "<table><thead><tr><th>Title</th><th>Original order</th><th>Reverse order</th></tr></thead><tbody>" + $.render.movieTmpl( movies ) + "</tbody></table>";
+	})(this.jsrender);
+</script>
+
+</body>
+</html>
