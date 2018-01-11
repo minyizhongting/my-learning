@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Test</title>
+</head>
+<body>
+<button class="btn">click</button>
+
+<script src="http://localhost:3000/sea/sea.js"></script>
+<script src="http://localhost:3000/sea/sea-config.js"></script>
+<script>
+	seajs.use('jsstatic/a', function() {
+		console.log('This is the index page.');
+	});
+</script>
+</body>
+</html>
