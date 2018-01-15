@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title></title>
+</head>
+<style type="text/css">
+body,ul,li,p,h1{margin:0;padding:0;}
+ul,li{list-style-type:none;}
+.empty-placeholder{height:50px;display:none;}
+.nav{overflow:hidden;}
+.nav li{float:left;width:100px;height:48px;line-height:48px;text-align:center;border:1px solid #aaa;border-right:none;}
+.nav li.brdr{border-right:1px solid #aaa;}
+.nav.fixed{position:fixed;top:0;}
+.nav li a{width:100px;height:48px;display:inline-block;background-color:#f4a2a2;text-decoration:none;color:#fff;font-size:24px;}
+.nav li a.nav-active{background-color:#d3d09a;color:#2e1beb;}
+.aa{height:500px;background:#af88ea;}
+.bb{height:660px;background:#71eca8;}
+.cc{height:790px;background:#f58c6c;}
+.dd{height:500px;background:#f436db;}
+</style>
+<script type="text/javascript" src="http://www.w3cmark.com/mark/jquery-2.1.1.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		var nav_active = $('.nav-active'); 
+		//定义一个函数，表示当前nav选中
+		var nav_scroll = function(obj){
+			nav_active.removeClass('nav-active');
+			obj.addClass('nav-active');
+			nav_active = obj;
+		};
+
+		$('.nav li a').click(function(){
+			nav_scroll($(this));
+			var target = $(this).attr('href');
+			console.log(target);
+			var targetScroll = $(target).offset().top - 50;
+			console.log(targetScroll);
+			$("html,body").animate({scrollTop:targetScroll},0);
+			return false;
+		});	
+
+		$(window).scroll(function(){
+			var targetTop = $(this).scrollTop();
+			//当页面滚动时，nav导航条滑到最上方后，将其fixed固定在最顶端
+			if(targetTop > 500){
+				$('.nav').addClass('fixed');
+				$('.empty-placeholder').show();
+			}else{
+				$('.nav').removeClass('fixed');
+				$('.empty-placeholder').hide();
+			}
+			//页面滚动到对应位置，使对应nav变为选中状态
+			if(targetTop < 880){
+				nav_scroll($('.nav1'));
+			}else if(targetTop > 1000 && targetTop < 1300){
+				nav_scroll($('.nav2'));
+			}else if(targetTop > 1660 && targetTop < 1800){
+				nav_scroll($('.nav3'));
+			}else if(targetTop > 2450 && targetTop < 3000){
+				nav_scroll($('.nav4'));
+			}
+
+		})
+	});
+</script>
+<body>
+	<div style="height:500px;"></div>
+	<div class="empty-placeholder"></div>
+	<ul class="nav">
+		<li><a href="#aa" class="nav1 nav-active" index="">aaa</a></li>
+		<li><a href="#bb" class="nav2">bbb</a></li>
+		<li><a href="#cc" class="nav3">ccc</a></li>
+		<li class="brdr"><a href="#dd" class="nav4">ddd</a></li>
+	</ul>
+	<div class="aa" id="aa">
+		<h1>aaaaaaaaaaaaaaaaaaaaaa</h1>
+	</div>
+	<div class="bb" id="bb">
+		<h1>bbbbbbbbbbbbbbbbbbbbbbbb</h1>
+	</div>
+	<div class="cc" id="cc">
+		<h1>ccccccccccccccccccccccccc</h1>
+	</div>
+	<div class="dd" id="dd">
+		<h1>ddddddddddddddddddddddddd</h1>
+	</div>
+	<div style="height:600px;"></div>
+</body>
+</html>

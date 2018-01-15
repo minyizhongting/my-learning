@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+<script>
+	
+//大多数模块依赖加载器/管理器本质上都是将这种模块定义封装进一个友好的API。
+//核心概念
+var MyModules = (function Manager(){
+	var modules = {};
+	
+	function define(name,deps,impl){
+		for(var i = 0; i < deps.length; i++){
+			deps[i] = modules[deps[i]];
+		}
+		modules[name] = impl.apply(impl,deps);	//将返回值，也就是模块的API，存储在一个根据名字来管理的模块列表中
+	}
+
+	function get(name){
+		return modules[name];
+	}
+
+	return {
+		define:define,
+		get:get
+	};
+
+})();
+//定义模块
+MyModules.define('bar',[],function(){
+	function hello(who){
+		return "Let me introduce: " + who;
+	}
+	return {
+		hello:hello
+	};
+});
+
+MyModules.define('foo',['bar'],function(bar){
+	var name = 'John';
+	function upper(){
+		console.log(bar.hello(name).toUpperCase());
+	}
+	return {
+		upper:upper
+	};
+});
+
+var bar = MyModules.get('bar');
+console.log(bar.hello('John'));	//Let me introduce: John
+
+var foo = MyModules.get('foo');
+foo.upper();		//LET ME INTRODUCE: JOHN
+
+console.log('---------------');
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+</body>
+</html>

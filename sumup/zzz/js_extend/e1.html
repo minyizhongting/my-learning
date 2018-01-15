@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+
+<script>
+
+//(1) 原型链继承，基本思想就是让一个原型对象指向另一个类型的实例。
+function SuperType () {
+	this.property = true;
+	this.colors = ['red','blue','green'];
+}
+
+SuperType.prototype.getSuperValue = function () {
+	return this.property;
+};
+
+function SubType () {
+	this.subproperty = false;
+}
+
+SubType.prototype = new SuperType();
+
+//SubType继承了SuperType，而继承是通过创建SuperType的实例，并将该实例赋给SubType.prototype实现的。
+//实现的本质是重写原型对象，代之以一个新类型的实例，那么存在于SuperType的实例中的所有属性和方法，现也存在于SubType.prototype中了。
+
+
+SubType.prototype.getSubValue = function () {
+	return this.subproperty;
+};
+
+//添加方法时，记住不能以字面量的形式添加，因为通过实例继承本质就是重写，在使用字面量形式，就又重写了，会导致原型链截断。
+// SubType.prototype = {
+// 	getSubValue: function () {
+// 		return this.subproperty;
+// 	}
+// };
+
+
+
+var instance1 = new SubType();
+
+console.log(instance1.getSuperValue());
+
+var instance2 = new SubType();
+
+instance1.colors.push('black');
+console.log(instance1.colors);	//['red','blue','green','black']
+console.log(instance2.colors);	//['red','blue','green','black']
+
+//单纯使用原型继承，主要问题来自包含引用类型值的原型。
+//SuperType构造函数定义了一个colors属性，当SubType通过原型链继承后，这个属性就会出现在SubType.prototype中，会导致SubType的所有实例都会共享这个属性。所以instance1修改colors这个引用类型值，也会反映到instance2中。
+
+
+</script>
+
+	
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>flex</title>
+<style>
+body,p,ul{margin:0;padding:0;}
+/*flex意味弹性布局*/
+/* 设为flex布局后，子元素的float、clear和vertical-align属性将失效*/
+/**
+*采用Flex布局的元素，称为Flex容器，简称"容器"。它的所有子元素自动成为容器成员，称为Flex项目，简称"项目"。
+*容器默认存在两根轴，水平的主轴和垂直的交叉轴。以下6个属性设置在容器上。
+*flex-direction：决定主轴的方向(即项目的排列方向)。 flex-direction: row | row-reverse | column | column-reverse;
+*flex-wrap：定义若一条轴线排不下，如何换行。 flex-wrap: nowrap | wrap | wrap-reverse;
+*flex-flow：是flex-direction属性和flex-wrap属性的简写形式，默认值为row nowrap。 flex-flow: <flex-direction> || <flex-wrap>;
+*justify-content：定义了项目在主轴上的对齐方式。 justify-content: flex-start | flex-end | center | space-between | space-around;
+*align-items：定义项目在交叉轴上如何对齐。 align-items: flex-start | flex-end | center | baseline | stretch;
+*align-content：定义了多根轴线的对齐方式。若项目只有一根轴线，该属性不起作用。 align-content: flex-start | flex-end | center | space-between | space-around | stretch;
+*
+*
+*以下6个属性设置在项目上。
+*order：定义项目的排列顺序。数值越小，排列越靠前，默认为0。
+*flex-grow：定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。
+*若所有项目的flex-grow都为1，则它们将等分剩余空间(如果有的话)，若一个项目的flex-grow为2，其他项目都为1，则前者占据的剩余空间比其他项多一倍。
+*flex-shrink：定义了项目的缩小比例，默认为1，即若空间不足，该项目将缩小。
+*flex-basis：定义了在分配多余空间之前，项目占据的主轴空间。它可以设成跟width或者height属性一样的值(比如200px)，则项目将占据固定空间。
+*flex：属性是flex-grow，flex-shrink和flex-basis的简写，默认值为0 1 auto。后两个属性可选。
+*该属性有两个快捷值：auto(1 1 auto)和none(0 0 auto)。建议优先使用这个属性，而不是单独写三个分离的属性，因为浏览器会推算相关值。
+*align-self：允许单个项目与其他项目不一样的对齐方式，可覆盖align-items属性。默认值为auto，表示继承父元素的align-items属性，若没有父元素，则等同于stretch。
+*
+*
+*
+*/
+
+.box{display:-webkit-flex;display:flex;margin:50px;width:200px;height:400px;border:1px solid #fabe00;justify-content:flex-start;align-items:center;flex-wrap:nowrap;align-content:flex-start;}
+.item{border:1px solid #000;height:40px;flex:1;}
+.item:nth-child(2){order:-1;align-self:flex-start;}
+.item:nth-child(3){flex:2;align-self:flex-end;}
+
+
+.s{width:43px;height:43px;border:1px solid red;margin:10px;display:-webkit-flex;display:inline-flex;float:left;}
+.s span{background:#000;width:10px;height:10px;border-radius:10px;margin:2px;}
+.s1{justify-content:center;align-items:center;}
+.s2{justify-content:space-around;align-items:center;}
+.s3{justify-content:space-between;align-items:flex-start;}
+.s3 span:nth-child(2){align-self:center;}
+.s3 span:nth-child(3){align-self:flex-end;}
+.s4{flex-wrap:wrap;justify-content:space-between;align-content:space-between;}
+.s4 .r{flex-basis:100%;display:flex;justify-content:space-between;}
+.s5{flex-wrap:wrap;justify-content:space-between;align-content:space-between;}
+.s5 .r{flex-basis:100%;display:flex;justify-content:space-between;}
+.s5 .r:nth-child(2){justify-content:center;}
+.s6{justify-content:space-between;flex-wrap:wrap;flex-direction:column;align-items:center;}
+.s7{flex-wrap:wrap;justify-content:space-between;align-content:space-between;}
+.s7 .r{flex-basis:100%;display:flex;justify-content:space-between;}
+.s7 .r:nth-child(2){justify-content:center;}
+.s8{flex-wrap:wrap;justify-content:space-between;align-content:space-between;}
+.s8 .r{flex-basis:100%;display:flex;justify-content:space-between;}
+.s8 .r:nth-child(2){justify-content:space-between;}
+.s9{justify-content:space-between;flex-wrap:wrap;}
+
+</style>
+</head>
+<body>
+<div class="box">
+	<span class="item">1</span>
+	<span class="item">2</span>
+	<span class="item">3</span>
+	<span class="item">4</span>
+</div>
+
+<div class="s s1">
+	<span></span>
+</div>
+
+<div class="s s2">
+	<span></span>
+	<span></span>
+</div>
+
+<div class="s s3">
+	<span></span>
+	<span></span>
+	<span></span>
+</div>
+
+<div class="s s4">
+	<div class="r">	
+		<span></span>
+		<span></span>
+	</div>
+	<div class="r">	
+		<span></span>
+		<span></span>
+	</div>
+</div>
+
+<div class="s s5">
+	<div class="r">	
+		<span></span>
+		<span></span>
+	</div>
+	<div class="r">	
+		<span></span>
+	</div>
+	<div class="r">	
+		<span></span>
+		<span></span>
+	</div>
+</div>
+
+<div class="s s6">
+	<span></span>
+	<span></span>
+	<span></span>
+	<span></span>
+	<span></span>
+	<span></span>
+</div>
+
+<div class="s s7">
+	<div class="r">	
+		<span></span>
+		<span></span>
+		<span></span>
+	</div>
+	<div class="r">	
+		<span></span>
+	</div>
+	<div class="r">	
+		<span></span>
+		<span></span>
+		<span></span>
+	</div>
+</div>
+
+<div class="s s8">
+	<div class="r">	
+		<span></span>
+		<span></span>
+		<span></span>
+	</div>
+	<div class="r">	
+		<span></span>
+		<span></span>
+	</div>
+	<div class="r">	
+		<span></span>
+		<span></span>
+		<span></span>
+	</div>
+</div>
+
+<div class="s s9">
+	<span></span>
+	<span></span>
+	<span></span>
+	<span></span>
+	<span></span>
+	<span></span>
+	<span></span>
+	<span></span>
+	<span></span>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+<script>
+//找出字符串中出现次数最多的字符
+
+//first method
+function getMost1(str){
+    var maxNum = 0;
+    var maxChar = [];    //存放出现字数最多的字符数组，因为出现最多的字符可能有多个
+    while(str){
+        var char = str.charAt(0);
+        var arr = str.split(char);
+        n = str.length - arr.join('').length;
+        str = arr.join('');
+        if(n > maxNum){
+            maxNum = n;
+            maxChar = [char];    // 放置数组元素
+        }else if( n === maxNum){
+            maxChar.push(char);    //出现次数相同的字符 存入数组里
+        }
+    }
+    return {'maxNum':maxNum, 'maxChar':maxChar}
+}
+var res1 = getMost1('dsfshkgfareasfd');
+console.log('出现次数最多的字符：'+ res1.maxChar + ',出现次数：' + res1.maxNum);
+
+
+
+//second method
+function getMost2(str){
+	var arr = str.split('');
+	arr = arr.sort();
+	str = arr.join('');
+	 
+	// 先进行排序处理，然后重新组装成字符串
+	var reg = /(\w)\1+/g;
+	var num = 0;
+	var value = null;
+
+	str.replace(reg, function($0, $1){
+	    if (num < $0.length) {
+	        num = $0.length;
+	        value = $1;
+	    };
+	});
+	return {
+		'num': num,
+		'value': value
+	};
+	
+}
+
+var res2 = getMost2('dsfshkgfareasfd');
+console.log('出现次数最多的字符：'+ res2.value + ',出现次数：' + res2.num);
+
+
+
+//third method
+function getMost3(str){
+	var arr = str.split('');
+	var o = {};
+	arr.forEach(function(val,idx){
+		if(!o[val]){
+			o[val] = 1;
+		}else{
+			o[val]++;
+		}
+	});
+	var maxNum = 0, maxChar = [];
+	for(var i in o){
+		if(maxNum < o[i]){
+			maxNum = o[i];
+			maxChar = [i];
+		}else if (maxNum == o[i]){
+			maxChar.push(i);
+		}
+	}
+	return {'maxNum':maxNum, 'maxChar':maxChar};
+}
+
+var res3 = getMost3('abcdaaeekkegbbbb');
+console.log('出现次数最多的字符：'+ res3.maxChar + ',出现次数：' + res3.maxNum);
+
+
+
+</script>
+
+</body>
+</html>

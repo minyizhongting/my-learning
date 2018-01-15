@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<style type="text/css">
+	body{color: #fff;}
+	a {text-decoration: none; color: #fff; }
+	.dotting {
+	    display: inline-block; width: 10px; min-height: 2px;
+	    padding-right: 2px;
+	    border-left: 2px solid currentColor; border-right: 2px solid currentColor;
+	    background-color: currentColor; background-clip: content-box;
+	    box-sizing: border-box;
+	    -webkit-animation: dot 4s infinite step-start both;
+	    animation: dot 4s infinite step-start both;
+	    *zoom: expression(this.innerHTML = '...'); /* IE7 */
+	}
+	.dotting:before { content: '...'; } /* IE8 */
+	.dotting::before { content: ''; }
+	:root .dotting { margin-left: 2px; padding-left: 2px; } /* IE9+ */
+
+	@-webkit-keyframes dot {
+	    25% { border-color: transparent; background-color: transparent; }
+	    50% { border-right-color: transparent; background-color: transparent; }
+	    75% { border-right-color: transparent; }
+	}
+	@keyframes dot {
+	    25% { border-color: transparent; background-color: transparent; }
+	    50% { border-right-color: transparent; background-color: transparent; }
+	    75% { border-right-color: transparent; }
+	}
+	.grebtn{width:200px; height:50px; line-height: 50px; background-color: #e23d93; text-align: center; display: inline-block;}
+	</style>
+</head>
+<body>
+<div>
+<a href="javascript:" class="grebtn">订单提交中<span class="dotting"></span></a>
+</div>
+</body>
+</html>

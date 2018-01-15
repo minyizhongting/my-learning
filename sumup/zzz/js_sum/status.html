@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+<script>
+	
+function type(elem) {
+	if (typeof elem == 'undefined') {
+		return elem + '';
+	} else {
+		return Object.prototype.toString.call(elem).replace(/[\[\]]/g,'').split(' ')[1].toLowerCase();
+	}
+}
+
+(function() {
+
+	var states = {};
+
+	function getStates() {
+		return states;
+	}
+
+	function get(name) {
+		return states[name] ? states[name] : '';
+	} 
+
+	function set(options, target) {
+		var keys = Object.keys(options);
+		var o = target ? target : states;
+
+		keys.map(function(item) {
+			if (typeof o[item] == 'undefined') {
+				o[item] = options[item];
+			} else {
+				typeof o[item] == 'object' ? set(options[item], o[item]) : o[item] = options[item];
+			}
+			return item;
+		});
+
+	}
+ 
+ 	window.set = set;
+ 	window.get = get;
+ 	window.getStates = getStates;
+
+
+})();
+
+
+set({a:1});
+
+set({a:2});
+
+set({
+	o: {
+		m:1,
+		n:2
+	}
+})
+
+console.log(getStates());
+
+
+
+
+</script>
+
+
+</body>
+</html>

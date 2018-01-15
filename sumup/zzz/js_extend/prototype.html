@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+
+<script>
+function Person() {		//构造函数
+
+}
+Person.prototype.name = 'Origin';	
+//每个函数都会有一个prototype属性，是一个指针，指向一个对象，记住只有函数才有。
+//Person.prototype就是原型对象，也就是实例p1的原型。
+//原型对象的好处是可以让所有对象实例共享它所包含的属性和方法。
+
+
+var p1 = new Person();	//通过new创建了p1对象实例
+
+
+//在p1实例对象下面有个[[prototype]]，其实没有标准的方式可以访问它，但主流浏览器在每个对象上都支持一个属性，就是__proto__，会指向该对象的原型。
+
+console.log('p1.__proto__ === Person.prototype', p1.__proto__ === Person.prototype);	
+//总结可得，__proto__是用来将对象和该对象的原型相连。
+
+
+
+
+//所有实现都无法访问到[[prototype]]，但可以通过一些方法来确定对象之间存在这种关系。
+
+console.log('p1 instanceof Person', p1 instanceof Person);	
+//instanceof，只能处理对象和函数之间的关系。
+
+console.log('Person.prototype.isPrototypeOf(p1)', Person.prototype.isPrototypeOf(p1));	
+//isPrototypeOf，若[[prototype]]指向调用此方法的对象，则返回true。
+
+console.log('Object.getPrototypeOf(p1) === Person.prototype', Object.getPrototypeOf(p1) === Person.prototype);	
+//Object.getPrototypeOf，返回[[prototype]]的值，可以获取到一个对象的原型。
+
+console.log('Person.prototype.constructor === Person', Person.prototype.constructor === Person);	
+//原型对象下的constructor属性，其实就是将原型对象指向关联的构造函数。
+console.log('p1.constructor === Person',p1.constructor === Person);
+//其实p1没有constructor属性，是通过原型链在原型Person.prototype上找到的。
+
+
+p1.name = 'B';
+
+console.log('p1.name', p1.name);
+//当读取一个属性时，若在实例属性上找到了，就读取它，若没有找到，就会在实例的原型上去找，直到尽头。
+
+console.log('p1.hasOwnProperty("name")', p1.hasOwnProperty('name'));
+//检测一个属性存在于实例中还是原型中，使用hasOwnProperty，属性只有存在于实例中才会返回true。
+
+
+</script>
+
+</body>
+</html>

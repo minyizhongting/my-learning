@@ -1,0 +1,66 @@
+<!--
+图片轮换：
+图片放在li中，给ul绝对定位，外层建立一个div设为relative，作为ul的父级。
+每张图片的宽度相同，每个li设置为float同一层排列放在ul中。ul的宽度为所有li宽度的总和。
+
+让图片轮换，给ul设置动画animate，让其向左移动一个li的宽度。
+将ul中的第一个li每次动画结束都让其置于ul的最后。通过first()获取到ul中第一个li，然后使用append()加入ul末尾。
+移动完后，将ul的位置还原。
+使用setInterval循环即可。
+
+圆圈图示：
+给上面的ul中的li设置index属性值。通过获取ul中第一个li的index值，来判断圆圈ul中显示哪个li。
+-->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+<style type="text/css">
+body,ul{margin:0;padding:0;}
+.div{width:241px;height:429px;overflow:hidden;position:relative;top:100px;left:100px;}
+ul{list-style-type:none;position:absolute;top:0;left:0;}
+.div ul{width:723px;}
+.div ul li{float:left;width:241px;}
+.circle{position:relative;top:120px;left:180px;}
+.circle li{width:20px;height:20px;float:left;margin-right:12px;border-radius:20px;background-color:blue;}
+.circle li.cur{background-color:yellow;}
+</style>
+</head>
+<body>
+<div class="div">
+	<ul class="con">
+		<li index="0"><img src="imgs/phone_pic1.jpg"></li>
+		<li index="1"><img src="imgs/phone_pic2.jpg"></li>
+		<li index="2"><img src="imgs/phone_pic3.jpg"></li>
+	</ul>
+</div>
+<ul class="circle">
+	<li class="cur"></li>
+	<li></li>
+	<li></li>
+</ul>
+</body>
+<script type="text/javascript" src="jquery-1.7.1.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		function bscroll(){
+			var bcon = $('.con');
+			var offset = ($('.con li').width()) * -1;	//单个li的宽度，取负值，即ul应向左移动的偏移量
+			bcon.animate({left:offset},"slow",function(){	//ul动画
+				var firstLi = $('.con li').first();		//ul中第一个li
+				bcon.append(firstLi);
+				$(this).css('left','0px');
+				circle();	//圆圈改变
+			})
+		};
+		function circle(){
+			var current = $('.con li').first();
+			var curIndex = current.attr("index");
+			$('.circle li').removeClass('cur');
+			$('.circle li').eq(curIndex).addClass('cur');
+		}
+		setInterval(bscroll,2000);
+	});
+</script>
+</html>

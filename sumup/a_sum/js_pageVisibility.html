@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+</head>
+<body>
+<script>
+// 设置隐藏属性和可见改变事件的名称，属性需要加浏览器前缀  
+// since some browsers only offer vendor-prefixed support  
+var hidden, state, visibilityChange;   
+if (typeof document.hidden !== "undefined") {  
+    hidden = "hidden";  
+    visibilityChange = "visibilitychange";  
+    state = "visibilityState";  
+} else if (typeof document.mozHidden !== "undefined") {  
+    hidden = "mozHidden";  
+    visibilityChange = "mozvisibilitychange";  
+    state = "mozVisibilityState";  
+} else if (typeof document.msHidden !== "undefined") {  
+    hidden = "msHidden";  
+    visibilityChange = "msvisibilitychange";  
+    state = "msVisibilityState";  
+} else if (typeof document.webkitHidden !== "undefined") {  
+    hidden = "webkitHidden";  
+    visibilityChange = "webkitvisibilitychange";  
+    state = "webkitVisibilityState";  
+}  
+
+// 添加一个标题改变的监听器  
+document.addEventListener(visibilityChange, function(e) {  
+    // 开始或停止状态处理  
+    document.title = document[state];
+}, false); 
+
+//设置初始化值
+document.title = document[state];
+
+</script>
+</body>
+</html>

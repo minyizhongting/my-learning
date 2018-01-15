@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<style type="text/css">
+	.pic{width:300px;height:300px;display:block;margin:100px 200px;background:url(a.jpg) no-repeat;background-size:100%;animation:change 5s ease both;}
+	@keyframes change{
+		0%{width:300px;-webkit-filter:brightness(1) saturate(.9) sepia(1) hue-rotate(20deg) opacity(.8)}
+		50%{width:500px;height:500px;-webkit-filter:brightness(.9) saturate(1) sepia(1);}
+		100%{width:300px;-webkit-mask-image:url(heart.png);-webkit-mask-size:100%;}
+	}
+</style>
+<body>
+	<div class="pic"></div>
+</body>
+</html>

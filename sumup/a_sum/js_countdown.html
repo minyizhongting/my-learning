@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>倒计时js代码</title>
+<style>
+*{ margin:0; padding:0; list-style:none;}
+body{ font-size:18px; text-align:center;}
+.time{ height:30px; padding:200px;}
+</style>
+</head>
+<body>
+  <div class="time">
+    <span id="result"></span>
+  </div>
+<script>
+  function getTime(){
+    var EndTime= new Date('2020/09/20 00:10:20');
+    var NowTime = new Date();
+    var t = EndTime.getTime() - NowTime.getTime();
+    var d = checkTime(Math.floor(t/1000/60/60/24));
+    var h = checkTime(Math.floor(t/1000/60/60%24));
+    var m = checkTime(Math.floor(t/1000/60%60));
+    var s = checkTime(Math.floor(t/1000%60));
+    document.getElementById("result").innerHTML = d + "天" + h + "时" + m + "分" + s + "秒";
+  }
+  function checkTime(i){
+    if(i < 10){
+        i = "0" + i;
+    }
+    return i;
+  }
+  setInterval(getTime,0);
+</script>
+</body>
+</html>

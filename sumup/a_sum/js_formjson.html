@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<form id="test-form" action="#0" onsubmit="return false;">
+    <p><label>Name: <input name="name"></label></p>
+    <p><label>Email: <input name="email"></label></p>
+    <p><label>Password: <input name="password" type="password"></label></p>
+    <p>Gender: <label><input name="gender" type="radio" value="m" checked> Male</label> <label><input name="gender" type="radio" value="f"> Female</label></p>
+    <p><label>City: <select name="city">
+        <option value="BJ" selected>Beijing</option>
+        <option value="SH">Shanghai</option>
+        <option value="CD">Chengdu</option>
+        <option value="XM">Xiamen</option>
+    </select></label></p>
+    <p><button type="submit" onclick="runjs()">Submit</button></p>
+</form>
+
+<script src="http://www.w3cmark.com/mark/jquery-2.1.1.min.js"></script>
+<script>
+	function runjs(){
+		var json = {};
+		// 简洁代码
+		// $('#test-form input[type!=submit]').map(function(){
+		// 	if(this.type !== 'radio' || this.checked){
+		// 		json[this.name] = this.value;
+		// 	}
+		// });
+
+		var element = $('#test-form :input');
+		for(var i = 0; i < element.length; i++){
+			var tmp = element[i];
+			if(tmp.type !== 'submit' && (tmp.type !== 'radio' || tmp.checked)){
+				json[tmp.name] = tmp.value;
+			}
+		}
+
+		json = JSON.stringify(json);
+		alert(json);
+	}
+</script>
+
+</body>
+</html>

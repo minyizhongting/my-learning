@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+<script>
+
+
+//Promise是一个构造函数，自身身上有all、reject、resolve等方法，原型上有then、catch等方法。
+//Promise的构造函数接收一个参数，是函数，并传入两个参数：resolve，reject。
+//resolve是将Promise的状态置为fullfilled，reject是将Promise的状态置为rejected。
+
+//new了一个对象，并没有调用它，传进去的函数就已经执行了。
+
+// var p = new Promise(function(resolve,reject) {
+// 	//做一些异步操作
+// 	setTimeout(function() {
+// 		console.log('执行完成');
+// 		resolve('随便什么数据');
+// 	},2000);
+// });
+
+
+function runAsync() {
+	var p = new Promise(function(resolve, reject) {
+		setTimeout(function(){
+			console.log('执行完成');
+			resolve('随便什么数据');
+		},2000);
+	});
+	return p;
+}
+
+//包装成一个函数，会return出Promise对象，即执行这个函数会得到一个Promise对象。
+
+//then方法接收一个参数，是函数，会拿到在runAsync中调用resolve时传的参数。
+// runAsync().then(function(data){
+// 	console.log(data);
+// });
+
+//Promise的作用，简单来讲，就是能把原来的回调写法分离出来，在异步操作执行完成后，用链式调用的方式执行回调函数。
+
+
+// function runAsync1(callback) {
+// 	setTimeout(function(){
+// 		console.log('执行完成1');
+// 		callback('随便什么数据');
+// 	},2000);
+// }
+
+// runAsync1(function(data){
+// 	console.log(data);
+// });
+
+
+//若callback也是一个异步操作，而且执行完之后也需要响应的回调，也不能在定义一个callback2，再传给callback。而Promise的优势在于，可以在then方法中继续写Promise对象并返回，然后继续调用then 来进行回调操作。
+
+
+
+
+
+
+function runAsync1() {
+	var p = new Promise(function(resolve,reject) {
+		setTimeout(function(){
+			console.log('run success1');
+			resolve('something1');
+		},2000);
+	});
+	return p;
+}
+function runAsync2() {
+	var p = new Promise(function(resolve,reject) {
+		setTimeout(function(){
+			console.log('run success2');
+			resolve('something2');
+		},1000);
+	});
+	return p;
+}
+function runAsync3() {
+	var p = new Promise(function(resolve,reject) {
+		// while(true){console.log('111');}
+		setTimeout(function(){
+			console.log('run success3');
+			resolve('something3');
+		},2000);
+	});
+	return p;
+}
+
+// runAsync1().then(function(data){
+// 	console.log(data);
+// 	return runAsync2();
+// })
+// .then(function(data){
+// 	console.log(data);
+// 	// return runAsync3();
+// 	return '直接返回数据';
+// })
+// .then(function(data){
+// 	console.log(data);
+// });
+
+
+function getNumber() {
+	var p = new Promise(function(resolve,reject) {
+
+		var num = Math.ceil(Math.random() * 10);
+		if (num <= 5) {
+			resolve(num);
+		} else {
+			reject('数字太大');
+		}
+
+	});
+
+	return p;
+}
+
+// getNumber().then(function(data) {
+// 	console.log('resolved');
+// 	console.log(data);
+// 	// console.log(somedata);	//此处somedata未定义
+// })
+// .catch(function(reason) {
+// 	console.log('rejected');
+// 	console.log(reason);
+// });
+
+
+//then方法可以接受两个参数，第一个对应resolve的回调，第二个对应reject的回调。
+
+//除了then方法，还有catch方法，作用其实和then的第二个参数一样，用来指定reject的回调。
+//catch还有另外一个作用，在执行resolve的回调(也就是then中第一个参数)时，若抛出异常了，则并不会报错卡死js，而是会进入到catch方法中。
+
+//会把错误原因传到reason参数中，即使有错误代码也不会报错了，这与try/catch语句有相同的功能。
+
+
+//Promise的all方法提供了并行执行异步操作的能力，在所有异步操作执行完后才执行回调。
+
+Promise
+ // .all([runAsync1(), runAsync2(), runAsync3()])
+.race([runAsync1(), runAsync2(), runAsync3()])
+.then(function(results) {
+	console.log(results);
+});
+
+//Promise.all接受一个数组参数，里面的值都返回Promise对象，这三个异步操作是并行执行的，等都执行完后才会进到then里面。all会把所有异步操作的结果放进一个数组中传给then，即上面的results。
+
+//all的效果实际上是"谁跑得慢，以谁为准执行回调"，相对的另一个race方法是"谁跑得快，以谁为准执行回调"。race本身就是赛跑的意思。
+//race的使用场景还是很多的，比如可以用race给某个异步请求设置超时实际，并且在超时后执行相应操作。
+
+
+
+function requestImg() {	//模拟请求某个图片资源
+	var p = new Promise(function(resolve, reject) {
+		var num = Math.ceil(Math.random() * 10);
+		setTimeout(function() {
+			resolve(num);
+		},num * 1000);
+	});
+
+	return p;
+}
+
+function timeout() {	//延时函数，用于给请求计时
+	var p = new Promise(function(resolve, reject) {
+		setTimeout(function() {
+			reject('图片请求超时')
+		},5000);
+	});	
+	return p;
+}
+
+Promise
+.race([requestImg(), timeout()])
+.then(function(data) {
+	console.log(data);
+})
+.catch(function(reason) {
+	console.log(reason);
+});
+
+//若5秒内图片请求成功了，就进入then方法执行正常流程，若5秒中图片还未成功返回，那么timeout跑赢了，进入catch，报"图片请求超时"的信息。
+
+
+
+
+
+
+</script>
+
+
+</body>
+</html>

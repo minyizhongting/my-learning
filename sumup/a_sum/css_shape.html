@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<style type="text/css">
+div{margin:0 auto;}
+.arrow{width:0;height:0;border-width:50px;border-color:green blue red orange;border-style:solid;}
+.circle{width:100px;height:100px;background:red;border-radius:50px;}
+.semicircle{width:100px;height:50px;background:blue;border-radius:50px 50px 0 0;}
+.fanshaped{width:50px;height:50px;border-radius:50px 0 0 0;background:red;}
+.pac-man{width:0;height:0;border-width:50px;border-color:red transparent red red;border-style:solid;border-radius: 50px;}
+.parallelogram{width:100px;height:80px;background:blue;transform:skew(-20deg);}
+.star-six{ 
+	position: relative;
+	width: 0; 
+	height: 0; 
+	border-left: 50px solid transparent; 
+	border-right: 50px solid transparent; 
+	border-bottom: 100px solid red; 
+}
+.star-six:after{
+	position: absolute; 
+	top: 30px; 
+	left: -50px;
+	width: 0; 
+	height: 0; 
+	border-left: 50px solid transparent; 
+	border-right: 50px solid transparent; 
+	border-top: 100px solid red; 
+	content: ""; 
+}
+.star-five{	
+	position:relative;
+	width:0;
+	height:0;
+	border-left:100px solid transparent;
+	border-right:100px solid transparent;
+	border-bottom: 70px solid red;
+	transform:rotate(35deg);
+}
+.star-five:before{
+	position: absolute;
+	top:-45px;
+	left: -65px;
+	width: 0;
+	height: 0;
+	border-left:30px solid transparent;
+	border-right:30px solid transparent;
+	border-bottom:80px solid red;
+	content: "";
+	transform:rotate(-35deg);
+}
+.star-five:after{
+	position:absolute;
+	top:3px;
+	left:-105px;
+	width:0;
+	height:0;
+	border-left:100px solid transparent;
+	border-right:100px solid transparent;
+	border-bottom:70px solid red;
+	content:"";
+	transform:rotate(-70deg);
+}
+.heart{
+	position:relative;
+	width:100px;
+	height:90px; 
+}
+.heart:before,.heart:after{
+	position:absolute;
+	left:50px;
+	top:0;
+	width:50px;
+	height:80px;
+	background:red;
+	border-radius:50px 50px 0 0;
+	content:"";
+	transform:rotate(-45deg);
+	transform-origin:0 100%;
+}
+.heart:after{
+	left:0;
+	transform:rotate(45deg);
+	transform-origin:100% 100%;
+}
+.talkbubble{
+	width:120px;
+	height:80px;
+	background:blue;
+	position:relative;
+	border-radius:10px;
+}
+.talkbubble:before{
+	position:absolute;
+	top:26px;
+	right:100%;
+	width:0;
+	height:0;
+	border-top:13px solid transparent;
+	border-bottom:13px solid transparent;
+	border-right:26px solid blue;
+	content:"";
+}
+.burst{
+	background:red;
+	width:80px;
+	height:80px;
+	position:relative;
+	text-align:center;
+}
+.burst:before,.burst:after{
+content: ""; 
+position: absolute; 
+top: 0; left: 0; 
+height: 80px; 
+width: 80px; 
+background: red; 	
+}
+.burst:before{
+	transform: rotate(30deg); 
+}
+.burst:after{
+	transform: rotate(60deg); 
+}
+</style>
+<body>
+	<div class="arrow"></div>			<!-- 三角形 -->
+	<div style="height:30px"></div>
+
+	<div class="circle"></div>			<!-- 圆形 -->
+	<div style="height:30px"></div>
+	
+	<div class="semicircle"></div>		<!-- 半圆形 -->
+	<div style="height:30px"></div>
+
+	<div class="fanshaped"></div>		<!-- 扇形 -->
+	<div style="height:30px"></div>
+
+	<div class="pac-man"></div>			<!-- 扇形 -->
+	<div style="height:30px"></div>
+
+	<div class="parallelogram"></div>	<!-- 平行四边形 -->	
+	<div style="height:30px"></div>
+
+	<div class="star-six"></div>	<!-- 六角星  使用:after制作另一反方向的三角形，定位层叠到一起 -->
+	<div style="height:100px"></div>
+
+	<div class="star-five"></div>	<!-- 五角星  左边一个倾斜三角，after一个右边倾斜三角，before上面小三角 -->
+	<div style="height:80px"></div>
+
+	<div class="heart"></div>			<!-- 心形  左边一个倾斜长方形，上方半圆处理，右边相对应 -->
+	<div style="height:30px"></div>
+
+	<div class="talkbubble"></div>		<!-- 对话泡泡  圆角长方形，左边一个尖三角 -->
+	<div style="height:30px"></div>
+
+	<div class="burst"></div>			<!-- 三个正方形错位叠加 -->
+	<div style="height:30px"></div>
+</body>
+</html>

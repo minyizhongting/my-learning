@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+
+<script>
+
+//(2) 借用构造函数，解决了原型中包含引用类型值带来的问题。这种方法的思想是在子类构造函数的内部调用父类构造函数，可以借助apply()或call()方法来改变对象的执行上下文。
+function SuperType (name) {
+	this.colors = ['red','blue','green'];
+	this.name = name;
+}
+
+function SubType () {
+	SuperType.call(this,'Bai');	//继承SuperType
+	// this.colors = ['red','blue','green'];
+}
+
+var instance1 = new SubType();
+var instance2 = new SubType();
+
+instance1.colors.push('black');
+console.log(instance1.colors);	//['red','blue','green','black']
+console.log(instance2.colors);	//['red','blue','green']
+
+//在新建SubType实例是调用了SuperType构造函数，这样就会在新SubType对象上执行SuperType函数中定义的所有对象初始化代码。
+//结果，SubType的每个实例都会具有自己的colors属性的副本了。
+
+//借助构造函数还有一个优势是可以传递参数。
+console.log(instance1.name);
+
+//仅仅借助构造函数，方法都在构造函数中定义，因此函数无法达到复用。
+
+
+
+</script>
+
+	
+</body>
+</html>

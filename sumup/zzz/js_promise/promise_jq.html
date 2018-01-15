@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+<script src="jquery-1.7.1.min.js"></script>
+<script>
+	
+var def = $.Deferred();
+
+function runAsync() {
+	var def = $.Deferred();
+	setTimeout(function() {
+		console.log('执行完成');
+		def.resolve('随便什么数据');
+	},2000);
+	return def.promise();
+}
+
+// runAsync().then(function(data) {
+// 	console.log(data);
+// });
+
+//与Promise的区别是，jquery的def对象本身就有resolve方法，所以创建def对象时并不是像ES6这样传入一个函数参数，可以在后面直接def.resolve()这样调用。
+
+
+//这样有个弊端，执行runAsync()可以拿到def对象，def对象上有resolve方法，那么岂不是在外部可以修改def的状态了？
+var d = runAsync();
+d.then(function(data) {
+	console.log(data);
+});
+// d.resolve('在外部结束');
+
+//这时，直接输出"在外部结束"。因为在异步操作执行完成前，没等他自己resolve，就在外部给resolve了。这是有风险的。比如你定义好一个异步操作，并指定好回调函数，有可能被别人给提前结束掉，你的回调函数也就不能执行了。
+
+//jquery提供了一个promise方法，就在def对象上，它可以返回一个受限的Deferred对象，所谓受限就是没有resolve、reject方法，无法从外部改变它的状态。
+
+
+//Deferred也是Promise规范的实现者，其他特性也是支持的。then的链式调用，同Promise基本一样。
+
+//Promise规范中，then方法接受两个参数，分别是执行完成和执行失败的回调。此外，jquery还增加了两个语法糖方法，done和fail，分别用来指定执行完成和执行失败的回调。
+
+d.then(function() {
+	console.log('执行完成');
+}, function() {
+	console.log('执行失败');
+});
+//等价于
+d.done(function() {
+	console.log('执行完成');
+})
+.fail(function() {
+	console.log('执行失败');
+});
+
+//jquery的Deferred对象上还有个always()方法，不论执行完成还是失败，always都会执行，类似ajax中的complete。
+
+//jquery中还有一个$.when方法来实现Promise，与ES6中的all方法功能一样。与ES6的all参数稍有区别，它接受的不是数组，而是多个Deferred对象。
+
+
+// $.when(runAsync1(), runAsync2(), runAsync3())
+// .then(function(data1, data2, data3) {
+// 	console.log('全部执行完成');
+// 	consolelog(data1, data2, data3);
+// });
+
+//jquery中没有像ES6中的race方法。
+
+
+//jquery的ajax返回一个受限的Deferred对象，也就是没有resolve方法和reject方法。不能从外部改变状态。
+
+// req1 = function() {
+// 	return $.ajax(/**/);
+// };
+// req2 = function() {
+// 	return $.ajax(/**/);
+// };
+// req3 = function() {
+// 	return $.ajax(/**/);
+// };
+
+// req1().then(reg2).then(req3).done(function() {
+// 	console.log('请求发送完毕');
+// });
+
+
+//ajax请求成功、失败、结束的回调，这三个方法与Deferred的关系，其实就是语法糖，success对应done，error对应fail，complete对应always。
+
+// $.ajax(/**/)
+// .successs(function() {/**/})
+// .error(function() {/**/})
+// .complete(function() {/**/});
+
+
+//总结。$.Deferred实现了Promise规范，then、done、fail、always是Deferred对象的方法。$.when是一个全局的方法，用来并行运行多个异步任务，与ES6的all是一个功能。ajax返回一个Deferred对象，success、error、complete是ajax提供的语法糖，功能与Deferred对象的done、fail、always一致。
+
+
+
+
+</script>
+
+</body>
+</html>

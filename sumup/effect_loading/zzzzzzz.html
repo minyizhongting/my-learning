@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<title>预加载</title>
+<style>
+*{ margin:0; padding:0; list-style:none;}
+body{ font-size:10px; text-align:center;font-family:"Microsoft Yahei"}
+.time img{width:100%;}
+.loading_overlay{position:absolute;width:100%;height:100%;z-index:667000;top:0;left:0;-webkit-transition:opacity 1000ms;transition:opacity 1000ms;}
+.loadingicon{position:absolute;width:30%;left:35%;top:36%;}
+</style>
+</head>
+<body>
+    <div class="loading_overlay">
+        <img src="imgs/loading.gif" class="loadingicon" id="loadingicon">
+    </div>
+    <div class="time">
+        <img src="imgs/a.jpg">
+        <img src="imgs/b.jpg">
+        <img src="imgs/c.jpg">
+    </div>
+<script type="text/javascript" src="jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="queryloader2.min.js"></script>
+<!-- 
+backgroundColor     (string) 加载的背景颜色
+barColor            (string) 加载条背景颜色
+barHeight           (int) 加载条高度，缺省为1
+deepSearch          (boolean) 设置为true来找到所有的指定元素对应图片。若不希望查找子元素，可设置为false。
+percentage          (boolean) 设置为true来启用百分比展示，缺省为false
+completeAnimation   (string) 设定结束的动画类型，"grow"或者为"fade"，缺省为fade
+onLoadComplete      (function) 加载完毕后调用的方法，对修改动画非常实用
+onComplete          (function) 此方法在完成加载和动画后调用
+
+-->
+<script>
+window.addEventListener('DOMContentLoaded',function(){
+    new QueryLoader2(document.querySelector("body"),{
+        barColor:"#000",
+        backgroundColor:"#fdba2e",
+        percentage:true,
+        barHeight:0,
+        onComplete:function(){
+            $('#loadingicon').hide();
+            setTimeout(function(){$('.loading_overlay').hide();},2000);
+        },
+        deepSearch:true,
+        minimumTime:300,
+        maxTime:10000,
+        fadeOutTime:20
+    });
+});
+</script>
+</body>
+</html>

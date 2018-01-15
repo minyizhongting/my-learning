@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+<title>Document</title>
+<script>
+	var meta = document.createElement('meta');
+	meta.setAttribute('name','viewport');
+	var dpr = 1 || window.devicePixelRatio;
+	meta.setAttribute('content','width=device-width, initial-scale=' + 1 / dpr + ', maximum-scale=' + 1 / dpr + ', minimum-scale=' + 1 / dpr + ', user-scalable=no');
+	window.document.head.appendChild(meta);
+	document.addEventListener('DOMContentLoaded',function(e){
+		document.getElementsByTagName('html')[0].style.fontSize = window.innerWidth / 6.4 + 'px';
+	},false);	
+	//设计稿640*1136，若设计稿24px，则css中为0.24rem。
+	//以iphone5为例，html的font-size为50px，则设计稿24px，css为0.24*50=12px。
+</script>	
+</head>
+<body>
+
+</body>
+</html>

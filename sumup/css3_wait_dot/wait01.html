@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<style type="text/css">
+	body{color: #fff;}
+	a {text-decoration: none; color: #fff; }
+	.dotting {
+   		display: inline-block; min-width: 2px; min-height: 2px;
+    	box-shadow: 2px 0 currentColor, 6px 0 currentColor, 10px 0 currentColor; /* for IE9+, ..., 3个点 */
+    	-webkit-animation: dot 4s infinite step-start both;	
+    	animation: dot 4s infinite step-start both;	/* for IE10+, ... */
+    	*zoom: expression(this.innerHTML = '...'); /*  for IE7. 若无需兼容IE7, 此行删除 */
+	}
+	.dotting:before { content: '...'; }  /* for IE8. 若无需兼容IE8, 此行以及下一行删除*/
+	.dotting::before { content: ''; }	/* for IE9+ 覆盖 IE8 */
+	:root .dotting { margin-right: 8px; } /* for IE9+,FF,CH,OP,SF 占据空间*/
+
+	@-webkit-keyframes dot {
+    	25% { box-shadow: none; }						 			/* 0个点 */
+    	50% { box-shadow: 2px 0 currentColor; }						/* 1个点 */
+   	 75% { box-shadow: 2px 0 currentColor, 6px 0 currentColor; }	/* 2个点 */
+	}
+	@keyframes dot {
+	    25% { box-shadow: none; }
+	    50% { box-shadow: 2px 0 currentColor; }
+	    75% { box-shadow: 2px 0 currentColor, 6px 0 currentColor; }
+	}
+
+	.grebtn{width:200px; height:50px; line-height: 50px; background-color: #e23d93; text-align: center; display: inline-block;}
+	</style>
+</head>
+<body>
+<div>
+<a href="javascript:" class="grebtn">订单提交中<span class="dotting"></span></a>
+</div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+<style>
+#total{width:500px; height:40px; line-height:40px; margin:80px auto 20px auto; font-size:20px}
+#total .t_num{ display:inline-block; line-height:13px; margin:2px 4px 0 4px;}
+#total .t_num i{width:15px;height:23px; display:inline-block; background: url(number.png) no-repeat; background-position:0 0; text-indent:-999em}
+</style>
+</head>
+<body>
+<div id="total">
+	<span class="t_num"></span>次
+</div>
+<script type="text/javascript" src="jquery-1.7.1.min.js"></script> 
+<script type="text/javascript" src="animateBackground-plugin.js"></script> 
+<script>
+function show_num(n){ 
+    var it = $(".t_num i"); 
+    var len = String(n).length; 
+    for(var i=0;i<len;i++){ 
+        if(it.length<=i){ 
+            $(".t_num").append("<i></i>"); 
+        } 
+        var num=String(n).charAt(i); 
+        var y = -parseInt(num)*30; //y轴位置 
+        var obj = $(".t_num i").eq(i); 
+        obj.animate({ //滚动动画 
+            backgroundPosition :'(0 '+String(y)+'px)'  
+            }, 'slow','swing',function(){} 
+        ); 
+    } 
+} 
+show_num(parseInt(Math.random()*1000000));
+
+// function getdata(){ 
+//     $.ajax({ 
+//         url: 'data.php', 
+//         type: 'POST', 
+//         dataType: "json", 
+//         cache: false, 
+//         timeout: 10000, 
+//         error: function(){}, 
+//         success: function(data){ 
+//             show_num(data.count); 
+//         } 
+//        }); 
+// } 
+// $(function(){ 
+//     getdata(); 
+//     setInterval('getdata()', 3000);//每隔3秒执行一次 
+// }); 
+
+
+//类似可以在统计网站访问量、统计影片播放次数、倒计时等方面得到应用，至于后台data.php如何处理数据不在本文叙述范围内，有兴趣的同学可以自己写一个诸如计数器之类的后台程序来返回data.count。
+
+</script>
+</body>
+</html>

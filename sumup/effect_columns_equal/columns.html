@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<style type="text/css">
+body{margin:0;padding:0;}
+#container1{float:left;width:100%;background:red;position:relative;right:40%;line-height:24px;}
+#container2{float:left;width:100%;background:yellow;position:relative;right:30%;}
+#container3{float:left;width:100%;background:green;position:relative;overflow:hidden;}
+#col1,#col2,#col3{float:left;position:relative;left:70%;}
+#col1{width:30%;background:red;overflow:hidden;}
+#col2{width:40%;background:yellow;overflow:hidden;}
+#col3{width:30%;background:green;overflow:hidden;}
+</style>
+</head>
+<body>
+<div id="container3">
+	<div id="container2">
+		<div id="container1">
+			<div id="col1">为了使用这种结构在所有游览器都正常工作，我们必须让外层容器往左或右浮动，并且其子元素包含每一栏内容的DIV也跟着浮动，哪一个方向都无所谓。浮动会使用它们往上对齐于外围容器的上补白，并且浮动的容器会自动调整自身的高度与宽度以实现对浮动子元素的包含。但是如果容器被定义了高度与宽度，则它不会随子元素的大小而自动调整自身显示区域来适应子元素的显示。但在IE6与低版本的IE中，子浮动元素能撑开外围元素；幸好IE7与IE8已引正了这个不符合标准的做法。 </div>
+			<div id="col2">为了使用这种结构在所有游览器都正常工作，我们必须让外层容器往左或右浮动，并且其子元素包含每一栏内容的DIV也跟着浮动，哪一个方向都无所谓。浮动会使用它们往上对齐于外围容器的上补白，并且浮动的容器会自动调整自身的高度与宽度以实现对浮动子元素的包含。但是如果容器被定义了高度与宽度，则它不会随子元素的大小而自动调整自身显示区域来适应子元素的显示。但在IE6与低版本的IE中，子浮动元素能撑开外围元素；幸好IE7与IE8已引正了这个不符合标准的做法。 为了使用这种结构在所有游览器都正常工作，我们必须让外层容器往左或右浮动，并且其子元素包含每一栏内容的DIV也跟着浮动，哪一个方向都无所谓。浮动会使用它们往上对齐于外围容器的上补白，并且浮动的容器会自动调整自身的高度与宽度以实现对浮动子元素的包含。但是如果容器被定义了高度与宽度，则它不会随子元素的大小而自动调整自身显示区域来适应子元素的显示。但在IE6与低版本的IE中，子浮动元素能撑开外围元素；幸好IE7与IE8已引正了这个不符合标准的做法。 </div>
+			<div id="col3">为了使用这种结构在所有游览器都正常工作，我们必须让外层容器往左或右浮动，并且其子元素包含每一栏内容的DIV也跟着浮动，哪一个方向都无所谓。 </div>
+		</div>
+	</div>
+</div>
+
+
+</body>
+</html>

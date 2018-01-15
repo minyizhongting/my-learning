@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<script type="text/javascript">
+	
+	function isPrime(n){
+		var arr=[];
+		outerloop:
+		for (var temp = 2; temp <= n; temp++) {
+			innerloop:
+			for (var i = 2; i < temp; i++) {
+					if(temp%i == 0){
+						continue outerloop;
+					}			
+			};
+			arr.push(temp);
+		};
+		alert(arr);
+	}
+	isPrime(100);
+
+</script>
+</body>
+</html>

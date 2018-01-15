@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<div>
+	<p><button id="refresh-jsonp">刷新</button></p>
+	<p id="test-jsonp"></p>
+</div>
+
+<script>
+var refreshj = document.getElementById('refresh-jsonp');
+
+function refreshPrice(data){
+	var testj = document.getElementById('test-jsonp');
+	testj.innerHTML = '当前价格：' + 
+					  data['0000001'].name + ': ' + 
+					  data['0000001'].price + '; ' + 
+					  data['1399001'].name + ': ' + 
+					  data['1399001'].price;
+}
+
+function getPrice(){
+	var js = document.createElement('script'),
+		head = document.getElementsByTagName('head')[0];
+		js.src = 'http://api.money.126.net/data/feed/0000001,1399001?callback=refreshPrice';
+		head.appendChild(js);
+}
+
+refreshj.onclick = getPrice;	
+</script>
+</body>
+</html>

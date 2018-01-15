@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Delegate</title>
+<style>
+#a{width:200px;height:200px;border:1px solid red;}
+#b{width:150px;height:150px;border:1px solid blue;}
+#c{width:100px;height:100px;border:1px solid green;}
+</style>
+</head>
+<body>
+
+<div id="father" style="border:1px solid red;">
+	<p id="son" style="border:1px solid blue;">click</p>
+	<br><br>
+</div>
+<br><br>
+
+
+<div id="a"><br>a
+	<div id="b"><br>b
+		<div id="c"><br>c</div>
+	</div>
+</div>
+<br><br>
+
+
+<div id="father1" style="border:1px solid red;">
+	<p id="son1" style="border:1px solid blue;">click</p>
+	<br><br>
+</div>
+<br><br>
+
+<p id="mybtn">click</p>
+
+<ul id="parent">
+	<li id="item1">Item 1</li>
+	<li id="item2">Item 2</li>
+	<li id="item3">Item 3</li>
+	<li id="item4">Item 4</li>
+	<li id="item5">Item 5</li>
+</ul>
+
+<script>
+	
+var father = document.getElementById('father');
+var son = document.getElementById('son');
+
+function getEventByTrigger(e) {
+	var x = e.currentTarget;
+	var y = e.target;
+	console.log('currentTarget: ', x.id, 'target: ', y.id);
+	console.log(e.currentTarget === this);
+	console.log(e.target === this);
+}
+
+father.addEventListener('click',getEventByTrigger,false);
+son.addEventListener('click',getEventByTrigger,false);
+
+var a = document.getElementById('a');
+var b = document.getElementById('b');
+var c = document.getElementById('c');
+a.addEventListener('click',function(){
+	console.log('haha--a');
+},false);
+b.addEventListener('click',function(e){
+	console.log('haha--b');
+	e.stopImmediatePropagation();
+},false);
+b.addEventListener('click',function(e){
+	console.log('haha--b1');
+},false);
+b.addEventListener('click',function(e){
+	console.log('haha--b2');
+},false);
+c.addEventListener('click',function(){
+	console.log('haha--c');
+},false);
+
+//只能添加一个事件处理程序
+a.onclick = function(){
+	console.log('haha--a');
+};
+
+// b.onclick = function(){
+// 	console.log('haha--b');
+// };
+
+// c.onclick = function(){
+// 	console.log('haha--c');
+// };
+
+var EventUtil = {
+	addHandler: function(element, type, handler) {
+		if (element.addEventListener) {
+			element.addEventListener(type, handler, false);
+		} else if (element.attachEvent) {
+			element.attachEvent('on'+type, handler);
+		}else {
+			element['on' + type] = handler;
+		}
+	},
+	removeHandler: function(element, type, handler) {
+		if (element.removeEventListener) {
+			element.removeEventListener(type, handler, false);
+		} else if (element.detachEvent) {
+			element.detachEvent('on'+type, handler);
+		} else {
+			element['on' + type] = null;
+		}
+	},
+	getEvent: function(event) {
+		return event ? event : window.event;
+	},
+	getTarget: function(event) {
+		return event.target || event.srcElement;
+	},
+	preventDefault: function(event) {
+		if (event.preventDefault) {
+			event.preventDefault();
+		} else {
+			event.returnValue = false;
+		}
+	},
+	stopPropagation: function(event) {
+		if (event.stopPropagation) {
+			event.stopPropagation();
+		} else {
+			event.cancelBubble = true;
+		}
+	}
+
+};
+
+
+var fa = document.getElementById('father1');
+var so = document.getElementById('son1');
+
+so.onclick = function(e) {
+	console.log('son onclick: ', e.eventPhase);
+};
+
+fa.onclick = function(e) {
+	console.log('father onclick: ', e.eventPhase);
+};
+
+fa.addEventListener('click',function(e){
+	console.log('father addEventListener: ', e.eventPhase);
+},true);
+
+
+// document.body.addEventListener('click',function(e){
+// 	console.log('body: ',e.eventPhase);
+// },true);
+
+var btn = document.getElementById('mybtn');
+btn.onclick = function() {
+	console.log(window.event.srcElement === this);	//true
+};
+// btn.attachEvent('onclick',function(event){
+// 	console.log(event.srcElement === this);
+// });
+
+
+
+
+// document.getElementById('parent').addEventListener('click',function(e){
+// 	if (e.target && e.target.nodeName.toUpperCase() == 'LI') {
+// 		console.log(e.target.id, 'was clicked');
+// 	}
+// },false);
+
+
+// $('#parent').delegate('li','click',function(e){
+// 	console.log($(this).attr('id'), 'was clicked');
+// });
+
+// $('#parent').on('click','li',function(e){
+// 	console.log($(this).attr('id'), 'was clicked');
+// });
+
+
+function delegate(dom, selector, eventName, callback) {
+	if(dom) {
+		dom.addEventListener(eventName,function(e) {
+			e = e || window.event;
+			if(e.target.nodeName.toLowerCase() == selector) {
+				callback && callback(e);
+			}
+		}, false);
+	}
+}
+
+var parent = document.getElementById('parent');
+delegate(parent, 'li', 'click', function(e){
+	console.log(e.target.id);
+});
+
+
+</script>
+
+
+
+</body>
+</html>

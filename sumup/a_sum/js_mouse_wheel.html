@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title></title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<style>
+*{margin:0;padding:0;font-family:Arial,'microsoft yahei';}
+html,body{overflow:hidden;}
+.hd{min-width:1200px;margin:0 auto;overflow:hidden;}
+.hdmain{width:1200px;margin:0 auto;position:relative;overflow:hidden;}
+.out{width:400px;height:400px;overflow:hidden;margin:50px auto;}
+.outer{width:400px;height:1200px;}
+.ban1{width:400px;height:400px;background:#f1c2c2;}
+.ban2{width:400px;height:400px;background:#dcf2e2;}
+.ban3{width:400px;height:400px;background:#f8f1ca;}
+</style>
+</head>
+<body>
+<div class="hd">
+	<div class="out">
+		<div class="outer">
+			<div class="ban ban1"></div>
+			<div class="ban ban2"></div>
+			<div class="ban ban3"></div>
+		</div>
+	</div>
+</div>
+<script src="http://www.w3cmark.com/mark/jquery-2.1.1.min.js"></script>
+<script>
+	var count = 0;
+	var scrollFuc = function(e){
+		var direct = null;
+		e = e || window.event;
+		if(e.wheelDelta > 0 || e.detail < 0){
+			// console.log('向上滚动');
+			direct =false;
+		}
+		if(e.wheelDelta < 0 || e.detail > 0){
+			// console.log('向下滚动');
+			direct = true;
+		}	
+		
+		if(direct){
+			if(count == 2){
+				return;
+			}
+			$('.outer').animate({
+				marginTop:"+=-400px"
+			},500);
+			count++;
+		}else{
+			if(count == 0){
+				return;
+			}
+			$('.outer').animate({
+				marginTop:"-=-400px"
+			},500);
+			count--;
+		}
+	};
+
+	if(document.addEventListener){
+		document.addEventListener('DOMMouseScroll',scrollFuc,false);
+	}
+
+	document.onmousewheel = scrollFuc;
+</script>
+
+</body>
+</html>

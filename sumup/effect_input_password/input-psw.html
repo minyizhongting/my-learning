@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+<style type="text/css">
+body,p,ul,input{margin:0;padding:0;}
+ul{list-style-type:none;}
+.bhide{display:none;}
+.box{width:400px;height:300px;margin:100px auto;position:relative;}
+.box li{width:300px;position:relative;}
+.box input{outline:0;height:38px;line-height:38px;font-size:16px;font-family:"Microsoft YaHei";color:#93939e;width:258px;padding-left:40px;border:1px solid #93939e;}
+.box .icon{position:absolute;top:10px;left:10px;width:20px;height:20px;}
+.box .icon img{width:20px;height:20px;}
+.icon-eye{display:none;position:absolute;top:10px;right:10px;width:16px;height:20px;}
+.icon-eyeh{background:url(imgs/icon_eyeh.png) no-repeat;}
+.icon-eyes{background:url(imgs/icon_eyes.png) no-repeat;}
+</style>
+<script type="text/javascript" src="jquery-1.7.1.min.js"></script>
+</head>
+<body>
+<ul class="box">
+	<li>
+		<span class="icon"><img src="imgs/locker.jpg"></span>
+		<input type="password" class="ipt-passwordH bhide" value="请输入密码" maxlength="20">
+		<input type="text" class="ipt-passwordS" value="请输入密码" maxlength="20">
+		<span class="icon-eye icon-eyeh"></span>
+	</li>
+</ul>
+</body>
+<script type="text/javascript">
+	$(function(){
+		//默认value值显示与隐藏
+	/*	$('.box li input').focus(function(){
+			var value_txt = $(this).val();
+			if(value_txt == this.defaultValue){
+				$(this).val('');
+			}
+		}).blur(function(){
+			var value_txt = $(this).val();
+			if(!value_txt){
+				$(this).val(this.defaultValue);
+			}
+		});
+	*/
+		//密码框中密码input显示与隐藏
+		$('.ipt-passwordS').focus(function(){
+			var valS = $(this).val();
+			if(valS == this.defaultValue){
+				$(this).val('');
+				$(this).hide();
+				$('.ipt-passwordH').show().focus();
+				$('.icon-eye').show();
+			}
+		}).blur(function(){
+			var valS = $(this).val();
+			if(!valS){
+				$(this).val(this.defaultValue);
+				$('.icon-eye').hide();
+				$('.icon-eye').removeClass('icon-eyes').addClass('icon-eyeh');
+				var x = $('.ipt-passwordH');
+				x.val(x.defaultValue);
+			}
+		});
+
+		$('.ipt-passwordH').focus(function(){
+			var valH =  $(this).val();
+			if(valH == this.defaultValue){
+				$(this).val('');
+			}
+		}).blur(function(){
+			var valH = $(this).val();
+			if(!valH){
+				$(this).val(this.defaultValue);
+				$('.icon-eye').hide();
+				$('.ipt-passwordS').val(this.defaultValue);
+				$('.ipt-passwordS').show();
+				$(this).hide();
+			}
+		});
+		//密码框眼睛按钮切换
+		$('.icon-eye').click(function(){
+			var vH = $('.ipt-passwordH').val();
+			var vS = $('.ipt-passwordS').val();
+			if($(this).hasClass('icon-eyeh')){
+				$(this).removeClass('icon-eyeh').addClass('icon-eyes');
+				$('.ipt-passwordS').val(vH).show();
+				$('.ipt-passwordH').hide();
+			}else{
+				$(this).removeClass('icon-eyes').addClass('icon-eyeh');
+				$('.ipt-passwordH').val(vS).show();
+				$('.ipt-passwordS').hide();
+			}
+		});
+
+	})
+</script>
+</html>

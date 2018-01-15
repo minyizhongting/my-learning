@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<style type="text/css">
+body{font-size:50px;font-weight:bold;background-color: #fff;}/*#badc75*/
+div{margin:20px;}
+.a{
+	-webkit-text-fill-color:transparent;
+	color:#000;
+	-webkit-text-stroke:1px #000;
+	animation-name:flash;	
+	animation-duration:1s;
+	animation-fill-mode:both;
+}
+@keyframes flash{
+	from,50%,to{opacity:1;}
+	25%,75%{opacity:0;}
+}
+.b{
+	background-image:-webkit-linear-gradient(#eee,red);
+	-webkit-background-clip:text;
+	-webkit-text-fill-color:transparent;
+	-webkit-text-stroke:1px transparent;
+	animation:pulse 1s both;
+}
+@keyframes pulse{
+	from{transform: scale3d(1,1,1);}
+	50%{transform: scale3d(1.05,1.05,1.05);}
+	to{transform:sale3d(1,1,1);}
+}
+.c{
+	-webkit-box-reflect:below 10px linear-gradient(transparent,transparent,rgba(0,0,0,.3));
+	animation:FadeInUp 1s both;
+}
+.delay1{
+	animation-delay:500ms;
+}
+.delay2{
+	animation-delay:1000ms;
+}
+.delay3{
+	animation-delay:1500ms;
+}
+.delay4{
+	animation-delay:2000ms;
+}
+.delay5{
+	animation-delay:2500ms;
+}
+
+h1,h2,h3,h4,h5,h6{animation:FadeInUp 1s both;}
+
+@keyframes FadeInUp{
+	from{
+		opacity:0;
+		transform:translate3d(0,50px,0);
+	}
+	to{
+		opacity:1;
+		transform:none;
+	}
+}
+.btn{
+	width:268px;
+	height:268px;
+	position:absolute;
+	top:10px;
+	right:10px;
+	animation:bigsmall 1.2s infinite ease;
+}
+@keyframes passdown{	/*图标上下晃动*/
+	0%{opacity:1;top:0;}
+	25%{opacity:.6;top:10px;}
+	50%{opacity:1;top:15px;}
+	75%{opacity:.6;top:10px;}
+	100%{opaciy:1;top:0;}
+}
+@keyframes bigsmall{	/*图标扩大缩小*/
+	0%{opacity:.8;}
+	50%{opacity:.5;transform:scale3d(1.08,1.08,1.08);}
+	100%{opacity:1;}
+}
+.btn img{width:100%;}
+.c{
+	-webkit-box-reflect:below 10px linear-gradient(transparent,transparent,rgba(0,0,0,.3));
+}
+</style>
+<body>
+	<div class="a">镂空文字</div>
+	<div class="b">Gradient图像填充的文字</div>
+	<!-- <div class="c">简单的文字倒影</div> -->
+	<h1>啊啊</h1>
+	<h2 class="delay1">宝宝</h2>
+	<h3 class="delay2">瞅瞅</h3>
+	<h4 class="delay3">等等</h4>
+	<h5 class="delay4">嗯嗯</h5>
+	<h6 class="delay5">翻翻</h6>
+	<div class="btn">
+		<span>哈哈</span>
+	</div>
+	<div class="c">简单的文字倒影</div><br><br>
+</body>
+</html>

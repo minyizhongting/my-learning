@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<div id="test-image-preview" style="border:1px solid #eee;height:500px;background-size:contain;background-repeat:no-repeat;background-position:center center;"></div>
+<p><input type="file" id="test-image-file" name="test" /></p>
+<p id="test-file-info"></p>
+<script>
+	var fileInput = document.getElementById('test-image-file'),
+		info = document.getElementById('test-file-info'),
+		preview = document.getElementById('test-image-preview');
+	//监听change事件
+	fileInput.addEventListener('change',function(){
+		preview.style.backgroundImage = '';
+		//检查文件是否选择
+		if(!fileInput.value){
+			info.innerHTML = '没有选择文件';
+			return;
+		}
+		//获取File引用
+		var file = fileInput.files[0];
+		//获取File信息
+		info.innerHTML =  '文件: ' + file.name + '<br>' +
+                     	  '大小: ' + file.size + '<br>' +
+                     	  '修改: ' + file.lastModifiedDate;
+        if(file.type !== 'image/jpg' && file.type !== 'image/png' && file.type !== 'image/gif'){
+        	alert('不是有效的图片文件！');
+        	return;
+        }
+        var reader = new FileReader();
+        reader.onload = function(e){
+        	var data = e.target.result;
+        	preview.style.backgroundImage = 'url(' + data +')';
+        };
+        reader.readAsDataURL(file);
+	});
+</script>
+</body>
+</html>

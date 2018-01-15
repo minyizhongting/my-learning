@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+<style type="text/css">
+	.loading{
+		width:128px;
+		height:128px;
+		background:url(loading3.png) 0 0 no-repeat;
+		-webkit-animation:loading 1s step-end infinite;
+	}
+	@-webkit-keyframes loading{
+		0%{background-position:0 0;}
+		10%{background-position:-128px 0;}
+		20%{background-position:-256px 0;}
+		30%{background-position:-384px 0;}
+		40%{background-position:-512px 0;}
+		50%{background-position:-640px 0;}
+		60%{background-position:-768px 0;}
+		70%{background-position:-896px 0;}
+		80%{background-position:-1024px 0;}
+		90%{background-position:-1152px 0;}
+		100%{background-position:-1280px 0;}
+	}
+</style>
+</head>
+<body>
+<div class="loading"></div>
+</body>
+</html>

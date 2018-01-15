@@ -1,0 +1,41 @@
+<!-- 利用JavaScript，可以在canvas元素上很容易地产生动画效果。 -->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+<canvas id="myCanvas" width="500" height="500">
+	您的浏览器不支持canvas!
+</canvas>
+<script>
+	var canvas = document.getElementById('myCanvas');
+	if(canvas.getContext){
+		var ctx = canvas.getContext('2d');
+	}
+	//产生一个小圆点，每隔30毫秒向下右方移动。
+	var posX = 20, posY = 100;
+	var vx = 10, vy = -10, gravity = 1;
+	//setInterval函数一开始，要将画布重新渲染黑色底色，是为了抹去上一步的小圆点。通过设置圆心坐标，可以产生各种运动轨迹。
+	setInterval(function(){
+		ctx.fillStyle = "black";
+		ctx.fillRect(0,0,canvas.width,canvas.height);
+		posX += vx;	//x增加，持续向右运动。
+		posY += vy;	//y先变小，然后在重力作用下不断增大，表示先上升后下降。
+		//一旦小球y坐标处于屏幕下方75%的位置，向x轴移动的速度变为原来75%，而向y轴反弹上一次反弹高度的40%。
+		if(posY > canvas.height * 0.75){
+			vy *= -0.6;
+			vx *= 0.75;
+			posY = canvas.height * 0.75;
+		}
+		vy += gravity;
+		ctx.beginPath();
+		ctx.fillStyle = "white";
+		ctx.arc(posX,posY,10,0,Math.PI*2,true);
+		ctx.closePath();
+		ctx.fill();
+	},30);//小球不断反弹后，逐步趋于静止。
+</script>
+</body>
+</html>

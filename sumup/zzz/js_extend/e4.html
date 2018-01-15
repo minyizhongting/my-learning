@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+<script>
+//(4) 原型式继承，借助原型可以基于已有的对象创建新对象，同时还不必因此创建自定义类型。
+function object(o) {
+	function F() {}
+	F.prototype = o;
+	return new F();
+}
+//在object内部，先创建一个临时性的构造函数，然后将传入的对象作为 构造函数的原型，最后返回这个临时类型的一个新实例。
+
+//本质上来说，object对传入其中的对象执行了一次浅复制。
+var person = {
+	name: 'Bai',
+	friends: ['John','Tom']
+};
+
+var anotherPerson = object(person);
+// var anotherPerson = Object.create(person);
+console.log(anotherPerson.friends);	//['John','Tom']
+
+//这种模式要求必须有一个对象作为另一个对象的基础，在此例中，person作为另一个对象的继承，把person传入object中，该函数就会返回一个新的对象，这个新对象将person作为原型。
+
+
+//ES5通过Object.create()方法规范了原型式继承，可以接受两个参数，一个是用作新对象原型的对象，另一个是可选的为新对象定义额外属性的对象。行为相同，基本用法和上面object一样，除了object不能接受第二个参数。
+
+
+
+</script>
+
+</body>
+</html>

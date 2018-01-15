@@ -1,0 +1,133 @@
+<!DOCTYPE>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<style type="text/css">
+html,body,ul,ol,p{margin:0;padding:0;font-family:'microsoft yahei';}
+.main1-1,.main1-2,.main1-3,.main2-1,.main3-1,.main4-1,.main5-1,.main6-1,.main6-2,.main7-1,.main8-1{width:400px;height:200px;margin:30px;}
+.tidt{text-indent:20px;}
+
+.main1-1{	/* 从顶部开始的线性渐变，起点红色，过渡到蓝色 */
+	background:-webkit-linear-gradient(red,blue);/* Safari 5.1 - 6.0 */
+	background:-o-linear-gradient(red,blue);/* Opera 11.1 - 12.0 */
+	background:-moz-linear-gradient(red,blue);/* Firefox 3.6 - 15 */
+	background:linear-gradient(red,blue);/* 标准语法(必须放在最后) */
+}
+.main1-2{	/* 从左开始的线性渐变，起点红色，过渡到蓝色 */
+	background:-webkit-linear-gradient(left,red,blue);
+	background:-o-linear-gradient(left,red,blue);
+	background:-moz-linear-gradient(left,red,blue);
+	background:linear-gradient(to right,red,blue);
+}
+.main1-3{	/* 从左开始的线性渐变，起点红色，过渡到蓝色 */
+	background:-webkit-linear-gradient(left top,red,blue);
+	background:-o-linear-gradient(left top,red,blue);
+	background:-moz-linear-gradient(left top,red,blue);
+	background:linear-gradient(to bottom right,red,blue);
+}
+
+.main2-1{
+	background:-webkit-linear-gradient(180deg,red,blue);
+	background:-o-linear-gradient(180deg,red,blue);
+	background:-moz-linear-gradient(180deg,red,blue);
+	background:linear-gradient(180deg,red,blue);
+}
+
+.main3-1{
+	background:-webkit-linear-gradient(left,red,orange,yellow,green,blue,indigo,violet);
+	background:-o-linear-gradient(left,red,orange,yellow,green,blue,indigo,violet);
+	background:-moz-linear-gradient(left,red,orange,yellow,green,blue,indigo,violet);
+	background:linear-gradient(to right,red,orange,yellow,green,blue,indigo,violet);
+}
+
+.main4-1{
+	background:-webkit-linear-gradient(left,rgba(255,0,0,0),rgba(255,0,0,1));
+	background:-o-linear-gradient(left,rgba(255,0,0,0),rgba(255,0,0,1));
+	background:-moz-linear-gradient(left,rgba(255,0,0,0),rgba(255,0,0,1));
+	background:linear-gradient(to right,rgba(255,0,0,0),rgba(255,0,0,1));
+}
+
+.main5-1{
+	background:-webkit-repeating-linear-gradient(white,blue 10%,black 20%);
+	background:-o-repeating-linear-gradient(white,blue 10%,black 20%);
+	background:-moz-repeating-linear-gradient(white,blue 10%,black 20%);
+	background:repeating-linear-gradient(white,blue 10%,black 20%);
+}
+
+.main6-1{
+	background:-webkit-radial-gradient(red,green,yellow);
+	background:-o-radial-gradient(red,green,yellow);
+	background:-moz-radial-gradient(red,green,yellow);
+	background:radial-gradient(red,green,yellow);
+}
+
+.main6-2{
+	background:-webkit-radial-gradient(red 5%,green 15%,yellow 60%);
+	background:-o-radial-gradient(red 5%,green 15%,yellow 60%);
+	background:-moz-radial-gradient(red 5%,green 15%,yellow 60%);
+	background:radial-gradient(red 5%,green 15%,yellow 60%);
+}
+
+.main7-1{
+	background:-webkit-radial-gradient(circle,red,green,yellow);
+	background:-o-radial-gradient(circle,red,green,yellow);
+	background:-moz-radial-gradient(circle,red,green,yellow);
+	background:radial-gradient(circle,red,green,yellow);
+}
+
+.main8-1{
+	background:-webkit-repeating-radial-gradient(white,blue 10%,black 20%);
+	background:-o-repeating-radial-gradient(white,blue 10%,black 20%);
+	background:-moz-repeating-radial-gradient(white,blue 10%,black 20%);
+	background:repeating-radial-gradient(white,blue 10%,black 20%);
+}
+</style>
+</head>
+<body>
+<p><b>1. CSS3线性渐变</b></p>
+<p class="tidt">语法：background:linear-gradient(direction, color-stop1, color-stop2,...);</p>
+<p class="tidt">完全支持该属性的第一个浏览器版本: IE10, Chrome 26.0, Firefox 16.0, Safari 6.1, Opera 12.1</p>
+<p class="tidt">注：IE9及之前不支持渐变。</p><br>
+<p class="tidt">线性渐变-从上到下(默认情况下)。</p>
+<div class="main1-1"></div>
+<p class="tidt">线性渐变-从左到右。</p>
+<div class="main1-2"></div>
+<p class="tidt">线性渐变-对角。</p>
+<div class="main1-3"></div>
+
+<p><b>2. 使用角度</b></p>
+<p>语法：background:linear-gradient(angle, color-stop1, color-stop2);</p>
+<div class="main2-1"></div>
+
+<p><b>3. 使用多个颜色结点</b></p>
+<div class="main3-1"></div>
+
+<p><b>4. 使用透明度</b></p>
+<p class="tidt">使用rgba()函数定义颜色结点</p>
+<div class="main4-1"></div>
+
+<p><b>5. 重复的线性渐变</b></p>
+<p class="tidt">repeating-linear-gradient()用于重复性渐变</p>
+<div class="main5-1"></div>
+
+<p><b>6. CSS3径向渐变</b></p>
+<p class="tidt">至少定义两种颜色结点。也可以指定渐变的中心、形状、大小。</p>
+<p class="tidt">默认情况下，渐变中心是center(中心点)，渐变形状是ellipse(椭圆形)，渐变大小是farthest-corner(到最远的角落)</p>
+<p class="tidt">语法：background:radial-gradient(center,shape size,start-color,...,last-color)</p><br>
+<p class="tidt">径向渐变-颜色结点均匀分布(默认情况下)</p>
+<div class="main6-1"></div>
+<p class="tidt">径向渐变-颜色结点不均匀分布</p>
+<div class="main6-2"></div>
+
+<p><b>7.设置形状</b></p>
+<p class="tidt">shape参数定义了形状，可以是circle或ellipse。</p>
+<div class="main7-1"></div>
+
+<p><b>8. 重复径向渐变</b></p>
+<p class="tidt">repeating-radial-gradient()用于重复性渐变</p>
+<div class="main8-1"></div>
+
+</body>
+
+</html>

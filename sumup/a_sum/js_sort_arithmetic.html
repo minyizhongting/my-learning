@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+<style>
+</style>
+</head>
+<body>
+<script>
+var array = [3,2,5,1,4];
+function swap(myarr,p1,p2){
+	var temp = myarr[p1];
+	myarr[p1] = myarr[p2];
+	myarr[p2] = temp;
+}
+//冒泡排序
+function bubbleSort(arr){
+	var len = arr.length,i,j;
+	for(i = 0; i < len; i++){
+		for(j = 0; j < len-1-i; j++){
+			if(arr[j]>arr[j+1]){
+				swap(arr,j,j+1);
+			}
+		}
+	}
+	return arr;
+}
+// bubbleSort(array);
+console.log(array);
+
+//简单选择排序
+function selectionSort(arr){
+	var len = arr.length,i,min;
+	for(i = 0; i < len; i++){
+		min = i;
+		for(j= i+1; j < len; j++){
+			if(arr[j] < arr[min]){
+				min = j;
+			}
+		}
+		if(i!=min){
+			swap(arr,i,min);
+		}
+	}
+	return arr;
+}
+// selectionSort(array);
+console.log(array);
+
+//插入排序
+function insertionSort(arr){
+	var len = arr.length,value,i,j;
+	for(i = 0; i < len; i++){
+		value = arr[i];
+		for(j=i-1; j>-1&&arr[j]>value;j--){
+			arr[j+1] = arr[j];
+		}
+		arr[j+1] = value;
+	}
+	return arr;
+}
+// insertionSort(array);
+console.log(array);
+
+//快速排序
+function partition(arr,left,right){
+	var pivot = arr[Math.floor((left+right)/2)],
+		i = left,
+		j = right;
+	while(i<=j){
+		while(arr[i]<pivot){
+			i++;
+		}
+		while(arr[j]>pivot){
+			j--;
+		}
+		if(i<=j){
+			swap(arr,i,j);
+			i++;
+			j--;
+		}
+	}
+	return i;
+}
+function quickSort(arr,left,right){
+	if(arr.length < 2) return arr;
+	left = (typeof left !== "number" ? 0 : left);
+	right = (typeof right !== "number" ? arr.length - 1 : right);
+	var index = partition(arr,left,right);
+	if(left < index-1){
+		quickSort(arr,left,index-1);
+	}
+	if(right > index){
+		quickSort(arr,index,right);
+	}
+	return arr;
+}
+quickSort(array,0,4);
+console.log(array);
+
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
