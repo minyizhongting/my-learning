@@ -20,12 +20,12 @@ Sass是用Ruby写的，需先安装Ruby，再安装Sass。<br>
 
 3. 直接在命令行输入：gem install sass。等一会儿就会提示Sass安装成功。
 
-4. 由于国内网络原因，导致rubygems.org存放在Amazon S3上面的资源文件间歇性连接失败。可通过source命令来配置源，先移除默认的https://rubygems.org源：
+4. 由于国内网络原因，导致rubygems.org存放在Amazon S3上面的资源文件间歇性连接失败。可通过source命令来配置源，先移除默认的https://rubygems.org 源：
     ```
     gem source --remove https://rubygems.org/
     ```
   
-    然后添加淘宝的源https://ruby.taobao.org/：
+    然后添加淘宝的源https://ruby.taobao.org/ ：
     ```
     gem source -a https://ruby.taobao.org/
     ```
@@ -146,7 +146,7 @@ a {
 一般情况下，Sass在解开一个嵌套规则时，会把父选择器(div)通过一个空格连接到子选择器(a)的前面形成(div a)。但有些情况，不希望使用这种后代选择器的方式生成这种连接。<br>
 
 嵌套的代码块内，可以使用&引用父元素。例如a:hover伪类。<br>
-* &是一个特殊的sass选择器，即父选择器 *。当包含父选择器标识符的嵌套规则被打开时，它不会像后代选择器那样进行拼接，而是&被父选择器直接替换。<br>
+&是一个特殊的sass选择器，即父选择器。当包含父选择器标识符的嵌套规则被打开时，它不会像后代选择器那样进行拼接，而是&被父选择器直接替换。<br>
 
 ```
 a {
