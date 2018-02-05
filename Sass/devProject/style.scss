@@ -1,0 +1,26 @@
+$blue: #2b99ff;
+
+* {
+	margin: 0;
+	padding: 0;
+}
+ul,ol {
+	list-style-type: none;
+}
+.box {
+	margin: 30px;
+	
+	p {
+		font-size: 30px;
+		line-height: 30px;
+		color: #ff8650;
+		margin-bottom: 20px;
+	}
+
+	ul {
+		li {
+			color: $blue;
+			font-size: 18px;
+		}
+	}
+}
