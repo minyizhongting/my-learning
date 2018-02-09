@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		.basis{width:500px;border:1px solid #e5e5e5;padding:15px;}
+		.basis label{color:#939393;}
+		.todos{padding:15px;}
+		.todos p{margin:10px 0;padding:0;color:#666;}
+	</style>
+</head>
+<body>
+	
+<div id="main"></div>
+
+<script id="tpl" type="text/x-handlebars-template">
+
+
+	<div class="basis">
+		<p><label>name: </label>{{fullName author}}</p>
+		<p><label>sex: </label>{{sex}}</p>
+		<p><label>city: </label>{{city}}</p>
+		<p><label>content: </label>{{content}}</p>
+	</div>
+	<br>
+
+
+	<ul class="list">
+		{{#program}} 			{{!-- 表达式后面跟随一个#号表示Blocks，通过{{表达式}}来结束Blocks --}}
+			<li>
+				{{language}}
+			</li>
+		{{/program}}
+	</ul>
+	<br>
+
+
+	{{#if color}} 				{{! 指定条件渲染DOM }}
+	<ul>
+		{{#each color}} 		{{!-- 内置的{{#each}}遍历列表块内容，this来引用遍历的元素 --}}
+			<li>{{addOne @index}}. {{this}}</li>
+		{{/each}}
+	</ul>
+	{{else}}
+	<p>{{error}}</p>
+	{{/if}}
+	<br>
+
+
+	{{#unless color}} 			{{!-- {{#unless}}是反向的if语法，即当判断的值为false时会渲染DOM --}}
+	<ol>
+		{{#each color}}
+			<li>{{this}}</li>
+		{{/each}}
+	</ol>
+	{{else}}
+	<ul>
+		<li>{{error}}</li>
+	</ul>
+	{{/unless}}
+	<br>
+
+
+	{{#with todos}}
+	<div class="todos">
+		<div>Todos:</div>
+		<p>{{first}}</p> 
+		<p>{{second}}</p> 
+	</div>
+	{{/with}}
+	<br>
+
+
+	{{#proList}}
+		123
+	{{/proList}}
+
+</script>
+
+<script src="js/jquery-1.7.1.min.js"></script>
+<script src="js/handlebars-v4.0.11.js"></script>
+
+<script>
+
+// Handlebars.registerHelper用来自定义Helper
+
+// Handlebars.registerHelper('fullName', function(person) {
+// 	return person.firstName + ' ' + person.lastName;
+// });
+
+// Handlebars.registerHelper('addOne', function(val) {
+// 	return parseInt(val) + 1;
+// });
+
+Handlebars.registerHelper({
+	fullName: function(person) {
+		return person.firstName + ' ' + person.lastName;
+	},
+	addOne: function(val) {
+		return parseInt(val) + 1;
+	}
+});
+
+
+var source = $('#tpl').html();
+
+var template = Handlebars.compile(source);
+
+var data = {
+	author: {
+		firstName: 'He',
+		lastName: 'Bai',
+	},
+	sex: 'female',
+	city: 'Beijing',
+	content: 'A FrontEnd Engineer',
+	program: [
+		{language: 'JavaScript'},
+		{language: 'HTML'},
+		{language: 'CSS'}
+	],
+	color: ['red', 'green', 'blue'],
+	error: 'no color data',
+	todos: {
+		first: 'aaa',
+		second: 'bbb'
+	}
+};
+
+var result = template(data);
+
+$('#main').html(result);
+
+
+</script>
+
+</body>
+</html>
