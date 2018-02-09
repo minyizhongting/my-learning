@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>三栏式布局 中间宽度自适应</title>
+	<style>
+		*{margin:0;padding:0;}
+		.box{min-width:800px;}
+		.box1 .l{background-color: red;position: absolute;top:0;left:0;width: 200px;height: 400px;}
+		.box1 .r{background-color: green;position: absolute;top:0;right:0;width: 200px;height: 400px;}
+		.box1 .m{margin:0 200px;background-color: #aaa;height: 400px;}
+
+		.box2{overflow: hidden;}
+		.box2 .l{background-color: red;width: 200px;height: 400px;float: left;}
+		.box2 .r{background-color: green;width: 200px;height: 400px;float: right;}
+		.box2 .m{margin:0 200px;background-color: #aaa;height: 400px;}
+
+		.box3{overflow: hidden;}
+		.main{float:left;width:100%;}
+		.box3 .l{background-color: red;width: 200px;height: 400px;float: left;margin-left:-100%;}
+		.box3 .r{background-color: green;width: 200px;height: 400px;float: left;margin-left:-200px;}
+		.box3 .m{margin:0 200px;background-color: #aaa;height: 400px;}
+
+	</style>
+</head>
+<body>
+	<div class="box box1" style="display:none;">
+		<div class="l"></div>
+		<div class="m"></div>
+		<div class="r"></div>
+	</div>
+	<div class="box box2" style="display:none;">
+		<div class="l"></div>
+		<div class="r"></div>
+		<div class="m"></div>
+	</div>
+	<div class="box box3">
+		<div class="main">
+			<div class="m"></div>
+		</div>
+		<div class="l"></div>
+		<div class="r"></div>
+	</div>
+</body>
+</html>
