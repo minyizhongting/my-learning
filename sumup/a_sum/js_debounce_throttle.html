@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+<script>
+	function resizeHandler() {
+		console.log('resize');
+	}
+	
+	// debounce函数会通过闭包维护一个timer
+	// 当同一个action在delay的时间间隔内再次触发，则清理timer，然后重新设置timer
+	var debounce = function(action, delay) {
+		var timer = null;
+		return function() {
+			var self = this,
+				args = arguments;
+			clearTimeout(timer);
+			timer = setTimeout(function() {
+				action.apply(self, args);
+			}, delay);
+		}
+	};
+
+	// window.onresize = debounce(resizeHandler, 300);
+
+
+	// throttle函数会有一个阈值，当达到阈值时action必定执行一次。
+	var throttle = function(action, delay) {
+		var startTime = 0;
+		return function() {
+			var currTime = +new Date();
+			if (currTime - startTime > delay) {
+				action.apply(this, arguments)
+				startTime = currTime;
+			};
+		}
+	}
+
+	window.onresize = throttle(resizeHandler, 300);
+
+</script>
+
+</body>
+</html>
