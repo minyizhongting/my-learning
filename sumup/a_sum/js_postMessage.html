@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>postMessage实现跨域</title>
+</head>
+<body>
+	
+<script>
+// A窗口代码，域名是http://example.com:8080
+var iframe = document.getElementById('web-iframe');
+
+var targetOrigin = "http://example.org";
+
+// 此行语句没有发送信息出去，因为targetOrigin设置不对
+iframe.contentWindow.postMessage("Hello iframe!", "http://secure.example.net");
+
+// 此行语句会成功添加message到发送队列中去，targetOrigin设置对了
+iframe.contentWindow.postMessage("Hello iframe!", targetOrigin);
+
+// 打开的iframe页面返回回来的消息
+window.addEventListener('message', function(event) {
+	if (event.origin == 'http://example.org') { 
+		console.log('event data: ', event.data);	// Hi, A! Got the data.
+
+		// event.source是通过iframe打开的页面
+		// event.data是iframe发送给当前页面的消息
+	}
+}, false);
+
+
+
+
+
+// iframe窗口代码，域名是http://example.org
+window.addEventListener('message', function(event) {
+	if (event.origin == 'http://example.com:8080') {
+		console.log('event data: ', event.data); 	// Hello iframe
+		event.source.postMessage("Hi, A! Got the data.", event.origin); // 作为回信的对象，把event.origin作为targetOrigin
+
+		// event.source是此iframe页面的来源页面
+		// event.data是来源页面发送过来的数据
+	}
+}, false);
+
+
+
+</script>
+
+</body>
+</html>
