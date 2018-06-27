@@ -10,6 +10,7 @@
     "gulp": "^3.9.1",
     "gulp-clean": "^0.4.0",
     "gulp-htmlmin": "^4.0.0",
+    "gulp-less": "^3.5.0",
     "gulp-ruby-sass": "^3.0.0"
   }
 }

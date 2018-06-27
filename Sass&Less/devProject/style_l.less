@@ -1,0 +1,17 @@
+@color: rebeccapurple;
+@font: 18px;
+@blue: #0074ff;
+
+.border-radius(@radius: 5px) {
+  border-radius: @radius;
+}
+
+span{
+  display: inline-block;
+  color: @color;
+  font-size: @font;
+  margin-top: 30px;
+  padding: 10px;
+  border: 1px solid @blue;
+  .border-radius(4px);
+}
