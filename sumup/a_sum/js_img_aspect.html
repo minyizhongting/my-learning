@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #app{
+            width: 500px;
+            height: 200px;
+            border: 2px solid #f0f0f0;
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: center;
+            align-items: center;
+        }
+        img{
+            max-width: 500px;
+            max-height: 200px;
+        }
+        .x-aspect{
+            width: 100%;
+            height: auto;
+        }
+        .y-aspect{
+            height: 100%;
+            width: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app">
+    </div>
+
+    <script>
+        function getImgAspect(imgUrl, rate, cb) {
+            var p = new Promise((resolve, reject) => {
+                var img = new Image();
+                img.src = imgUrl;
+                var data = {};
+                data.rate = rate;
+                if (img.complete) {
+                    data.w = img.naturalWidth;
+                    data.h = img.naturalHeight;
+                    document.getElementById('app').appendChild(img);
+                    resolve(data);
+                } else {
+                    img.onload = () => {
+                        data.w = img.naturalWidth;
+                        data.h = img.naturalHeight;
+                        document.getElementById('app').appendChild(img);
+                        resolve(data);
+                    };
+                    img.onerror = () => {
+                        reject(new Error('Could not load the image!'));
+                    };
+                }
+            });
+
+            p.then((data) => {
+                var aspect = '';
+                if (data.w / data.h > data.rate) {
+                    aspect = 'x-aspect';
+                } else {
+                    aspect = 'y-aspect';
+                }
+                cb && cb(aspect);
+            }).catch((err) => {
+                console.error(err);
+            });
+
+        }
+
+        var url = 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1530107860888&di=d63603dc01b5ce365b1403ee57853744&imgtype=0&src=http%3A%2F%2Fg.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F4610b912c8fcc3cec52444bf9e45d688d53f2051.jpg'; //
+
+        getImgAspect(url, 2.5, function(value) {
+            console.log('aspect: ', value);
+            document.getElementsByTagName('img')[0].setAttribute('class', value);
+        });
+
+    </script>
+</body>
+</html>
