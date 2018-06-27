@@ -1,5 +1,21 @@
 $blue: #2b99ff;
 
+@mixin css3($property, $value) {
+	@each $prefix in -webkit-, -moz-, -ms-, -o-, '' {
+		#{$prefix}#{$property}: $value;
+	}
+}
+
+@mixin clearfix {
+	&:before, &:after{
+		content: '';
+		display: table;
+	}
+	&:after {
+		clear: both;
+	}
+}
+
 * {
 	margin: 0;
 	padding: 0;
@@ -16,7 +32,15 @@ ul,ol {
 		color: #ff8650;
 		margin-bottom: 20px;
 	}
-
+	span.s {
+		display: inline-block;
+		color: $blue;
+		font-size: 16px;
+		margin: 20px 0;
+		padding: 10px;
+		border: 2px solid $blue;
+		@include css3(border-radius, 5px);
+	}
 	ul {
 		li {
 			color: $blue;
@@ -24,3 +48,4 @@ ul,ol {
 		}
 	}
 }
+

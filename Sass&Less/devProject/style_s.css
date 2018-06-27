@@ -1,0 +1,6 @@
+* { margin: 0; padding: 0; }
+ul, ol { list-style-type: none; }
+.box { margin: 30px; }
+.box p { font-size: 30px; line-height: 30px; color: #ff8650; margin-bottom: 20px; }
+.box span.s { display: inline-block; color: #2b99ff; font-size: 16px; margin: 20px 0; padding: 10px; border: 2px solid #2b99ff; -webkit-border-radius: 5px; -moz-border-radius: 5px; -ms-border-radius: 5px; -o-border-radius: 5px; border-radius: 5px; }
+.box ul li { color: #2b99ff; font-size: 18px; }
