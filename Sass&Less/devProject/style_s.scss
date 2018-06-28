@@ -16,6 +16,13 @@ $blue: #2b99ff;
 	}
 }
 
+@mixin ellipsis {
+	width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
 * {
 	margin: 0;
 	padding: 0;
