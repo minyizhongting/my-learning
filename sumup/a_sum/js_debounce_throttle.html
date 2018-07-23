@@ -3,14 +3,36 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
+	<style>
+		.box{
+			padding: 50px;
+		}
+		.box div p{
+			margin-top: 20px;
+			background-color: #ccc;
+			height: 200px;
+			border: 1px solid red;
+		}
+	</style>
 </head>
 <body>
-	
+<div class="box">
+	<div>
+		<p>haha</p>
+		<p>haha</p>
+		<p>haha</p>
+		<p>haha</p>
+		<p>haha</p>
+	</div>
+</div>
 <script>
+	// 去抖(debounce)和节流(throttle)都是用来控制某个函数在一定时间内执行多少次的技巧。
+
 	function resizeHandler() {
 		console.log('resize');
 	}
-	
+
+	// 去抖
 	// debounce函数会通过闭包维护一个timer
 	// 当同一个action在delay的时间间隔内再次触发，则清理timer，然后重新设置timer
 	var debounce = function(action, delay) {
@@ -25,22 +47,54 @@
 		}
 	};
 
-	// window.onresize = debounce(resizeHandler, 300);
+	window.onresize = debounce(resizeHandler, 300);
 
 
+
+  function add() {
+    var html = '<p>haha</p><p>haha</p><p>haha</p><p>haha</p><p>haha</p>';
+    var box = document.getElementsByClassName('box')[0];
+    var node = document.createElement('div');
+    node.innerHTML = html;
+    box.appendChild(node);
+    console.log('add!');
+  }
+
+	// 节流
 	// throttle函数会有一个阈值，当达到阈值时action必定执行一次。
-	var throttle = function(action, delay) {
-		var startTime = 0;
-		return function() {
-			var currTime = +new Date();
-			if (currTime - startTime > delay) {
-				action.apply(this, arguments)
-				startTime = currTime;
-			};
-		}
-	}
+	// var throttle = function(action, delay) {
+	// 	var startTime = 0;
+	// 	return function() {
+	// 		var currTime = +new Date();
+	// 		if (currTime - startTime > delay) {
+	// 			action.apply(this, arguments)
+	// 			startTime = currTime;
+	// 		};
+	// 	}
+	// };
 
-	window.onresize = throttle(resizeHandler, 300);
+  // window.onresize = throttle(resizeHandler, 300);
+
+  var _throttle = function(action,  delay) {
+    var startTime = 0;
+    return function() {
+      var scrollTop = document.documentElement.scrollTop;
+      var clientHeight = document.documentElement.clientHeight;
+      var scrollHeight = document.documentElement.scrollHeight;
+      // console.log(scrollTop, clientHeight, scrollHeight);
+      // scrollTop + clientHeight == scrollHeight  滑到底部
+      if (scrollHeight - scrollTop - clientHeight > 300) {
+        return;
+      }
+      var currTime = +new Date();
+      if (currTime - startTime > delay) {
+        action.apply(this,arguments);
+        startTime = currTime;
+      }
+    }
+  };
+
+	window.onscroll = _throttle(add, 300);
 
 </script>
 
