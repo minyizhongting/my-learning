@@ -17,9 +17,9 @@ http://www.example.com:81/b.html   不同源(端口不同)
 ```
 
 不同源，就会产生跨域问题，解决跨域的方法有很多。
-    * [CORS](https://github.com/minyizhongting/my-learning/blob/master/Cross-domain/CORS.md)
-    * [JSONP](https://github.com/minyizhongting/my-learning/blob/master/Cross-domain/JSONP.md)
-    * [代理](https://github.com/minyizhongting/my-learning/blob/master/Cross-domain/proxy.md)
+* [CORS](https://github.com/minyizhongting/my-learning/blob/master/Cross-domain/CORS.md)
+* [JSONP](https://github.com/minyizhongting/my-learning/blob/master/Cross-domain/JSONP.md)
+* [代理](https://github.com/minyizhongting/my-learning/blob/master/Cross-domain/proxy.md)
 
 
 
