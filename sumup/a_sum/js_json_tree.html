@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		var array = [
+			{"id": 99999, "name": "业务分类", "parentId": 0, "lvl": 0, "isLeaf": 0}, 
+			{"id": 1, "name": "财富管理", "parentId": 99999, "lvl": 1, "isLeaf": 0}, 
+			{"id": 2, "name": "固收理财", "parentId": 1, "lvl": 2, "isLeaf": 0},
+			{"id": 3, "name": "保险理财", "parentId": 2, "lvl": 3, "isLeaf": 1},
+			{"id": 4, "name": "银行理财", "parentId": 2, "lvl": 3, "isLeaf": 1},
+			{"id": 5, "name": "基金理财", "parentId": 1, "lvl": 2, "isLeaf": 1},
+			{"id": 6, "name": "数据服务", "parentId": 1, "lvl": 2, "isLeaf": 0},
+			{"id": 7, "name": "数据产品", "parentId": 6, "lvl": 3, "isLeaf": 1},
+			{"id": 8, "name": "证券业务", "parentId": 99999, "lvl": 1, "isLeaf": 0},
+			{"id": 9, "name": "股票", "parentId": 9, "lvl": 2, "isLeaf": 1}
+		];
+
+		// 将list转化为tree
+		function json2tree(data, config = {}) {		
+			var id = config.id || 'id';
+			var parentId = config.parentId || 'parentId';
+			var children = config.children || 'children';	
+
+			var dataMap = {};	// key-id & value-item
+			var jsonTree = [];
+
+			data.forEach(function(item) {
+				dataMap[item[id]] = item;
+			});
+
+			data.forEach(function(item) {
+				var parent = dataMap[item[parentId]];	// 当前项的parentId对应的项
+				if (parent) {	// 当前item是否有父元素
+					if (!parent[children]) {
+						parent[children] = [];
+					}
+					parent[children].push(item);
+				} else {
+					jsonTree.push(item);
+				}
+			});
+
+			return jsonTree;
+
+		}
+
+		var tree = json2tree(array);
+		console.log(tree);
+
+		// 将tree转化为list
+		function tree2json(data) {		
+			var list = [];
+			getList(data, list);	
+			return list;
+		}
+
+		function getList(data, list) {
+			data.forEach(function(item) {
+				if (item.children && item.children.length) {
+					getList(item.children, list);
+				}
+				var element = JSON.parse(JSON.stringify(item));
+				delete element.children;
+				list.push(element);
+			});
+		}
+
+		var list = tree2json(tree);
+		console.log(list);
+
+	</script>
+</body>
+</html>
